@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 // import Coupon from './class-components/Coupon';
-import Search from './class-components/Search';
+// import Search from './class-components/Search';
+import Signup from './class-components/Signup';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <Search/>
+    <Signup/>
 );
 
 // If you want to start measuring performance in your app, pass a function

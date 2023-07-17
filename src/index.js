@@ -2,11 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Coupon from './class-components/Coupon';
+// import Coupon from './class-components/Coupon';
+import Search from './class-components/Search';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <Coupon/>
+    <Search/>
 );
 
 // If you want to start measuring performance in your app, pass a function

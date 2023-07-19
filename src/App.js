@@ -18,6 +18,7 @@ function App() {
         <Route path='/executive' element={<ExecutiveDashboard/>}> </Route>
         <Route path='/customer' element={<CustomerDashboard/>}> </Route>
         <Route path='/logout' element={<Logout/>}> </Route>
+        
       </Routes>
     </div>
   );

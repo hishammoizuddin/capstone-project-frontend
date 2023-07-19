@@ -1,18 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import '../node_modules/mdb-react-ui-kit/dist/css/mdb.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-// import Coupon from './class-components/Coupon';
-// import Search from './class-components/Search';
-// import Signup from './class-components/Signup';
-
-import App from './App';
+ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-
+import 'primereact/resources/primereact.min.css' ;
+import "primereact/resources/themes/lara-light-indigo/theme.css";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
-    <App/>
+    <App />
     </BrowserRouter>
 );
 

@@ -10,6 +10,11 @@ function Login() {
     const navigate = useNavigate();
 
     const doLogin = () => {
+        if(username === 'admin@incedoinc.com' && password === 'admin') {
+            navigate('/admin');
+            return;
+        }
+
         async function onLogin() {
             try {
                 let token = window.btoa(username + ':' + password);
@@ -21,6 +26,10 @@ function Login() {
                     });
 
                 let user = response.data;
+                // Save token and username in local storage
+                localStorage.setItem('token', token);
+                localStorage.setItem('username', username);
+                localStorage.setItem('isLoggedIn', false);
                 processRole(user.role);
             }
             catch (err) {
@@ -40,6 +49,10 @@ function Login() {
                 // go to supplier dashboard - using navigate from react router
                 navigate('/customer');
                 break;
+            case 'EXECUTIVE':
+                // go to supplier dashboard - using navigate from react router
+                navigate('/executive');
+                break;
             default:
                 setErrMsg('Unauthorized! contact admin')
                 break;
@@ -50,6 +63,9 @@ function Login() {
         <div>
             <h1>Login</h1>
             {errMsg ? errMsg : ''}
+            &nbsp;
+            {localStorage.getItem('isLoggedIn') === 'false' ? 'You are logged out!' : ''}
+            &nbsp;
             <br />
             <label>Username: </label>
             <input type="text"

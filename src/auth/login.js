@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router'
 
 function Login() {
@@ -8,6 +8,10 @@ function Login() {
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const navigate = useNavigate();
+
+    const newUser = () => { // If it is new user, and hasn't signed up yet
+        navigate("/customersignup");
+    }
 
     const doLogin = () => {
         if(username === 'admin@incedoinc.com' && password === 'admin') {
@@ -59,35 +63,49 @@ function Login() {
         }
     }
 
+
     return (
-        <div>
-            <h1>Login</h1>
-            {errMsg ? errMsg : ''}
-            &nbsp;
-            {localStorage.getItem('isLoggedIn') === 'false' ? 'You are logged out!' : ''}
-            &nbsp;
-            <br />
-            <label>Username: </label>
-            <input type="text"
-                value={username}
-                onChange={(e) => {
-                    setUsername(e.target.value);
-                    setErrMsg('')
-                }}
-            />
-            <br /><br />
-            <label>Password: </label>
-            <input type="password"
-                value={password}
-                onChange={(e) => {
-                    setPassword(e.target.value)
-                    setErrMsg('')
-                }}
-            />
-            <br /><br />
-            <button onClick={doLogin}>Login</button>
+        <div className="container py-5">
+            <div className="row justify-content-center">
+                <div className="col-md-6">
+                    <div className="card border-primary rounded shadow">
+                        <div className="card-header bg-primary text-white rounded-top">Login</div>
+                        <div className="card-body">
+                            {errMsg && <div className="alert alert-danger">{errMsg}</div>}
+                            <form>
+                                <div className="mb-3">
+                                    <label className="form-label">Username:</label>
+                                    <input type="text"
+                                        className="form-control border-primary"
+                                        value={username}
+                                        onChange={(e) => {
+                                            setUsername(e.target.value);
+                                            setErrMsg('')
+                                        }}
+                                    />
+                                </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Password:</label>
+                                    <input type="password"
+                                        className="form-control border-primary"
+                                        value={password}
+                                        onChange={(e) => {
+                                            setPassword(e.target.value)
+                                            setErrMsg('')
+                                        }}
+                                    />
+                                </div>
+                                <button type="button" className="btn btn-primary mt-3" onClick={doLogin}>Login</button>
+                                &nbsp;&nbsp;
+                                <button type="button" className="btn btn-primary mt-3" onClick={newUser}>Sign Up</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
+    
 
 }
 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Component } from "react";
 
-class Signup extends Component {
+class CustomerSignUp extends Component {
 
     constructor() {
         super();
@@ -37,91 +37,203 @@ class Signup extends Component {
 
     }
 
+    // render() {
+    //     return (
+    //         <div style={{ margin: '20px' }}>
+    //             <h1>Customer Sign Up</h1>
+    //             <hr />
+    //             <h3>Enter your details below to sign up</h3>
+    //             <br/>
+
+    //             <label>Username :</label>
+    //             <input type="text"
+    //                 name="username"
+    //                 value={this.state.user.username}
+    //                 onChange={this.changeHandler}
+    //             />
+    //             <br /><br />
+
+    //             <label>Password :</label>
+    //             <input type="text"
+    //                 name="password"
+    //                 value={this.state.user.password}
+    //                 onChange={this.changeHandler}
+    //             />
+    //             <br /><br />
+
+    //             <label>Name :</label>
+    //             <input type="text"
+    //                 name="name"
+    //                 value={this.state.customer.name}
+    //                 onChange={this.changeHandler}
+    //             />
+    //             <br /><br />
+
+    //             <label>Contact :</label>
+    //             <input type="text"
+    //                 name="contact"
+    //                 value={this.state.customer.contact}
+    //                 onChange={this.changeHandler}
+    //             />
+    //             <br /><br />
+
+    //             <label>Age :</label>
+    //             <input type="text"
+    //                 name="age"
+    //                 value={this.state.customer.age}
+    //                 onChange={this.changeHandler}
+    //             />
+    //             <br /><br />
+
+    //             <label>House Number :</label>
+    //             <input type="text"
+    //                 name="hno"
+    //                 value={this.state.address.hno}
+    //                 onChange={this.changeHandler}
+    //             />
+    //             <br /><br />
+
+    //             <label>Street :</label>
+    //             <input type="text"
+    //                 name="street"
+    //                 value={this.state.address.street}
+    //                 onChange={this.changeHandler}
+    //             />
+    //             <br /><br />
+
+    //             <label>City :</label>
+    //             <input type="text"
+    //                 name="city"
+    //                 value={this.state.address.city}
+    //                 onChange={this.changeHandler}
+    //             />
+    //             <br /><br />
+
+    //             <label>Zip Code :</label>
+    //             <input type="text"
+    //                 name="zipcode"
+    //                 value={this.state.address.zipcode}
+    //                 onChange={this.changeHandler}
+    //             />
+    //             <br /><br />
+
+    //             <button type="button" className="btn btn-outline-primary" onClick={this.addCustomer}>Sign Up</button>
+
+    //         </div>
+    //     );
+    // }
+
     render() {
         return (
-            <div style={{ margin: '20px' }}>
-                <h1>Customer Sign Up</h1>
-                <hr />
-                <h3>Enter your details below to sign up</h3>
-                <br/>
-
-                <label>Username :</label>
-                <input type="text"
-                    name="username"
-                    value={this.state.user.username}
-                    onChange={this.changeHandler}
-                />
-                <br /><br />
-
-                <label>Password :</label>
-                <input type="text"
-                    name="password"
-                    value={this.state.user.password}
-                    onChange={this.changeHandler}
-                />
-                <br /><br />
-
-                <label>Name :</label>
-                <input type="text"
-                    name="name"
-                    value={this.state.customer.name}
-                    onChange={this.changeHandler}
-                />
-                <br /><br />
-
-                <label>Contact :</label>
-                <input type="text"
-                    name="contact"
-                    value={this.state.customer.contact}
-                    onChange={this.changeHandler}
-                />
-                <br /><br />
-
-                <label>Age :</label>
-                <input type="text"
-                    name="age"
-                    value={this.state.customer.age}
-                    onChange={this.changeHandler}
-                />
-                <br /><br />
-
-                <label>House Number :</label>
-                <input type="text"
-                    name="hno"
-                    value={this.state.address.hno}
-                    onChange={this.changeHandler}
-                />
-                <br /><br />
-
-                <label>Street :</label>
-                <input type="text"
-                    name="street"
-                    value={this.state.address.street}
-                    onChange={this.changeHandler}
-                />
-                <br /><br />
-
-                <label>City :</label>
-                <input type="text"
-                    name="city"
-                    value={this.state.address.city}
-                    onChange={this.changeHandler}
-                />
-                <br /><br />
-
-                <label>Zip Code :</label>
-                <input type="text"
-                    name="zipcode"
-                    value={this.state.address.zipcode}
-                    onChange={this.changeHandler}
-                />
-                <br /><br />
-
-                <button type="button" className="btn btn-outline-primary" onClick={this.addCustomer}>Sign Up</button>
-
+            <div className="container py-5">
+                <div className="row justify-content-center">
+                    <div className="col-md-8">
+                        <div className="card border-primary">
+                            <div className="card-header bg-primary text-white">Customer Sign Up</div>
+                            <div className="card-body">
+                                <p className="card-text">Enter your details below to sign up</p>
+                                
+                                <form>
+                                    <div className="mb-3">
+                                        <label className="form-label">Username:</label>
+                                        <input type="text"
+                                            className="form-control"
+                                            name="username"
+                                            value={this.state.user.username}
+                                            onChange={this.changeHandler}
+                                        />
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label className="form-label">Password:</label>
+                                        <input type="password"
+                                            className="form-control"
+                                            name="password"
+                                            value={this.state.user.password}
+                                            onChange={this.changeHandler}
+                                        />
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label className="form-label">Name:</label>
+                                        <input type="text"
+                                            className="form-control"
+                                            name="name"
+                                            value={this.state.customer.name}
+                                            onChange={this.changeHandler}
+                                        />
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label className="form-label">Contact:</label>
+                                        <input type="text"
+                                            className="form-control"
+                                            name="contact"
+                                            value={this.state.customer.contact}
+                                            onChange={this.changeHandler}
+                                        />
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label className="form-label">Age:</label>
+                                        <input type="text"
+                                            className="form-control"
+                                            name="age"
+                                            value={this.state.customer.age}
+                                            onChange={this.changeHandler}
+                                        />
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label className="form-label">House Number:</label>
+                                        <input type="text"
+                                            className="form-control"
+                                            name="hno"
+                                            value={this.state.address.hno}
+                                            onChange={this.changeHandler}
+                                        />
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label className="form-label">Street:</label>
+                                        <input type="text"
+                                            className="form-control"
+                                            name="street"
+                                            value={this.state.address.street}
+                                            onChange={this.changeHandler}
+                                        />
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label className="form-label">City:</label>
+                                        <input type="text"
+                                            className="form-control"
+                                            name="city"
+                                            value={this.state.address.city}
+                                            onChange={this.changeHandler}
+                                        />
+                                    </div>
+    
+                                    <div className="mb-3">
+                                        <label className="form-label">Zip Code:</label>
+                                        <input type="text"
+                                            className="form-control"
+                                            name="zipcode"
+                                            value={this.state.address.zipcode}
+                                            onChange={this.changeHandler}
+                                        />
+                                    </div>
+    
+                                    <button type="button" className="btn btn-primary" onClick={this.addCustomer}>Sign Up</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }
+    
 
     addCustomer=async ()=>{
         try {
@@ -173,5 +285,5 @@ class Signup extends Component {
 
 }
 
-export default Signup;
+export default CustomerSignUp;
 

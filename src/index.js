@@ -8,11 +8,13 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import 'primereact/resources/primereact.min.css' ;
 import "primereact/resources/themes/lara-light-indigo/theme.css";
+import CustomerSignUp from './features/customer/customer-signup';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
     <App />
     </BrowserRouter>
+    // <CustomerSignUp/>
 );
 
 // If you want to start measuring performance in your app, pass a function

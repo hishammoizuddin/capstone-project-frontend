@@ -34,6 +34,7 @@ function Order(){
     const [allProducts,setAllProducts] = useState([]);
     const [warehouses,setWarehouses] = useState([]);
     const [suppliers,setSuppliers] = useState([]);
+    const [successMsg,setSuccessMsg] = useState('');
      /* 
       prime react declarations  
     */
@@ -138,7 +139,7 @@ function Order(){
     const leftToolbarTemplate = () => {
         return (
           <div className="flex flex-wrap gap-2">
-                <Button label="New" icon="pi pi-plus" severity="success" onClick={openNew} data-bs-toggle="modal"
+                <Button label="New" icon="pi pi-plus" severity="success" onClick={()=>setSuccessMsg('')} data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"/>
              </div>
         );
@@ -196,8 +197,24 @@ function Order(){
         </div>
     );
    
-    const allOrder = ()=>{
+    const allOrder = async ()=>{
         console.log(productId + '--' + warehouseId + '--' + sid + '--' + quantity)
+
+        try {
+             const response  = await axios.post(
+              "http://localhost:8181/order/entry",
+              {
+                productId:  productId,
+                warehouseId: warehouseId,
+                supplierId: sid,
+                quantity: quantity
+              }
+            );
+            setSuccessMsg('Order placed successfully!!!');
+            orders.push(response.data);
+          } catch (err) {
+            console.log(err.msg);
+          }
     }
     return (
       <div>
@@ -216,7 +233,6 @@ function Order(){
               <div className="modal-header">
                 <h1 className="modal-title fs-5" id="staticBackdropLabel">
                   Add new order
-                   
                 </h1>
                 <button
                   type="button"
@@ -225,50 +241,81 @@ function Order(){
                   aria-label="Close"
                 ></button>
               </div>
-              <div className="modal-body">
-                <label>Which Product: </label>
-                <select className="form-select" aria-label="Default select example" 
-                onChange={(e)=>setProductId(e.target.value)}>
-                    {
-                        allProducts.map(p=>{
-                            return(
-                                <option value={p.id} key={p.id} onChange={(e)=>setProductId(e.target.value)} > {p.category.name} : {p.title}  </option>
-                            )
-                        })
-                    }
-                  
-                </select>
-                <br /> 
-                <label>In which warehouse:</label>
-                <select className="form-select" aria-label="Default select example"
-                onChange={(e)=>setWarehouseId(e.target.value)}>
-                {
-                        warehouses.map(w=>{
-                            return(
-                                <option value={w.id} key={w.id} > {w.location}   </option>
-                            )
-                        })
-                    }
-                </select>
-                <br /> 
-                <label>Order for Supplier:</label>
-                <select className="form-select" aria-label="Default select example" 
-                onChange={(e)=>setSid(e.target.value)}>
-                {
-                        suppliers.map(s=>{
-                            return(
-                                <option value={s.id} key={s.id}> {s.name} , {s.address.city}   </option>
-                            )
-                        })
-                    }
-                </select>
-                <br /> 
-                <label>Quantity:</label>
-                <input type="text" className="form-control" id="exampleFormControlInput1" 
-                placeholder="mention quantity to be ordered" onChange={(e)=>setQuantity(e.target.value)}>
-                </input>
-                <br /> 
 
+              <div className="modal-body">
+                {/* Show success msg*/}
+                {successMsg === "" ? (
+                  ""
+                ) : (
+                  <div class="alert alert-primary" role="alert">
+                    {successMsg}
+                  </div>
+                )}
+                <label>Which Product: </label>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={(e) => setProductId(e.target.value)}
+                >
+                    <option>--select product--</option>
+                  {allProducts.map((p) => {
+                    return (
+                        
+                      <option
+                        value={p.id}
+                        key={p.id}
+                        onChange={(e) => setProductId(e.target.value)}
+                      >
+                        
+                        {p.category.name} : {p.title}
+                      </option>
+                    );
+                  })}
+                </select>
+                <br />
+                <label>In which warehouse:</label>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={(e) => setWarehouseId(e.target.value)}
+                >
+                    <option>--select warehouse location--</option>
+                  {warehouses.map((w) => {
+                    return (
+                      <option value={w.id} key={w.id}>
+                        {" "}
+                        {w.location}{" "}
+                      </option>
+                    );
+                  })}
+                </select>
+                <br />
+                <label>Order for Supplier:</label>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={(e) => setSid(e.target.value)}
+                >
+                    <option>--select supplier--</option>
+                  {suppliers.map((s) => {
+                    return (
+                      <option value={s.id} key={s.id}>
+                        {" "}
+                        {s.name} , {s.address.city}{" "}
+                      </option>
+                    );
+                  })}
+                </select>
+                <br />
+                <label>Quantity:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder="mention quantity to be ordered"
+                  onChange={(e) => setQuantity(e.target.value)}
+                ></input>
+                <br />
               </div>
               <div className="modal-footer">
                 <button
@@ -278,7 +325,11 @@ function Order(){
                 >
                   Close
                 </button>
-                <button type="button" className="btn btn-primary" onClick={()=>allOrder()}>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => allOrder()}
+                >
                   Add Order
                 </button>
               </div>
@@ -302,12 +353,13 @@ function Order(){
             rowsPerPageOptions={[5, 10, 25]}
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" /** header={header} */
+            globalFilter={globalFilter}      
           >
             <Column
               field="id"
               header="Product ID"
               sortable
-              style={{ minWidth: "10rem" }}
+              style={{ minWidth: "8rem" }}
             ></Column>
             <Column
               field="product.title"
@@ -326,7 +378,7 @@ function Order(){
               field="product.totalQuantity"
               header="Quantity"
               sortable
-              style={{ minWidth: "8rem" }}
+              style={{ minWidth: "6rem" }}
             ></Column>
             <Column
               field="product.category.name"
@@ -341,10 +393,10 @@ function Order(){
               style={{ minWidth: "12rem" }}
             ></Column>
             <Column
-              field="suppler.address.city"
-              header="City"
+              field="warehouse.location"
+              header="Warehouse Location"
               sortable
-              style={{ minWidth: "12rem" }}
+              style={{ minWidth: "14rem" }}
             ></Column>
             <Column
               field="status"

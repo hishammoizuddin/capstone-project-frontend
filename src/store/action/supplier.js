@@ -21,3 +21,19 @@ export const getSupplierOrders =()=> async (dispatch)=>{
     payload: orders
 }
 */
+
+export const updateStatus = (orderId,status)=>{
+    /* Call the API and update the status */
+    //this is to update the DB 
+    axios.put(
+        "http://localhost:8181/order/update/" +orderId + '/' + status ).then(response=> {}); 
+
+    //this is to update the store 
+    return {
+        type: 'UPDATE_STATUS',
+        payload: {
+            'orderId' : orderId,
+            'status' : status
+        }
+    }
+}

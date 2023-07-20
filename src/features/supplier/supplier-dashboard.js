@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "./navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { getSupplierOrders } from "../../store/action/supplier";
+import { getSupplierOrders, updateStatus } from "../../store/action/supplier";
 import { Dropdown } from 'primereact/dropdown';
 /* prime react imports */
 import { classNames } from 'primereact/utils';
@@ -83,92 +83,109 @@ function SupplierDashboard(){
              
         </div>
     );
-   
+       
+    const updateStatusv1=(orderId,status)=>{
+        dispatch(updateStatus(orderId,status));
+    }
 
-    return(
+    const actionBodyTemplate = (rowData) => {
+        return (
+            <React.Fragment>
+                 <button className="btn btn-info" 
+                 onClick={()=>updateStatusv1(rowData.id, 'ACCEPTED')} >ACCEPTED</button>
+                 &nbsp;&nbsp;
+                 <button className="btn btn-danger"
+                 onClick={()=>updateStatusv1(rowData.id, 'REJECTED')} >REJECTED</button>
+                 &nbsp;&nbsp;
+                 <button className="btn btn-success" 
+                 onClick={()=>updateStatusv1(rowData.id, 'DELIVERED')} >DELIVERED</button>
+        </React.Fragment>
+        );
+    };
+    return (
+      <div>
+        <div className="mb-4">
+          <Navbar />
+        </div>
         <div>
-            <div className='mb-4'> 
-                <Navbar />
-            </div>
-            <div>
-            <div className="card">
-          <Toolbar
-            className="mb-4"
-            start={leftToolbarTemplate}
-            end={rightToolbarTemplate}
-          ></Toolbar>
+          <div className="card">
+            <Toolbar
+              className="mb-4"
+              start={leftToolbarTemplate}
+              end={rightToolbarTemplate}
+            ></Toolbar>
 
-          <DataTable
-            ref={dt}
-            value={list}
-            dataKey="id"
-            paginator
-            rows={size}
-            rowsPerPageOptions={[5, 10, 25]}
-            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" /** header={header} */
-            globalFilter={globalFilter} header={header}      
-          >
-            <Column
-              field="id"
-              header="Product ID"
-              sortable
-              style={{ minWidth: "8rem" }}
-            ></Column>
-            <Column
-              field="product.title"
-              header="Product Name"
-              sortable
-              style={{ minWidth: "12rem" }}
-            ></Column>
-            <Column
-              field="product.price"
-              body={priceBodyTemplate}
-              header="Price"
-              sortable
-              style={{ minWidth: "6rem" }}
-            ></Column>
-            <Column
-              field="product.totalQuantity"
-              header="Quantity"
-              sortable
-              style={{ minWidth: "6rem" }}
-            ></Column>
-            <Column
-              field="product.category.name"
-              header="Category"
-              sortable
-              style={{ minWidth: "10rem" }}
-            ></Column>
-            <Column
-              field="suppler.name"
-              header="Supplier Name"
-              sortable
-              style={{ minWidth: "12rem" }}
-            ></Column>
-            <Column
-              field="warehouse.location"
-              header="Warehouse Location"
-              sortable
-              style={{ minWidth: "14rem" }}
-            ></Column>
-            <Column
-              field="status"
-              header="Status"
-              sortable
-              style={{ minWidth: "12rem" }}
-            ></Column>
-            <Column
-              field="dateOfOrder"
-              header="Order Date"
-              sortable
-              style={{ minWidth: "12rem" }}
-            ></Column>
-          </DataTable>
+            <DataTable
+              ref={dt}
+              value={list}
+              dataKey="id"
+              paginator
+              rows={size}
+              rowsPerPageOptions={[5, 10, 25]}
+              paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" /** header={header} */
+              globalFilter={globalFilter}
+              header={header}
+            >
+              <Column
+                field="id"
+                header="Order ID"
+                sortable
+                style={{ minWidth: "8rem" }}
+              ></Column>
+              <Column
+                field="product.title"
+                header="Product Name"
+                sortable
+                style={{ minWidth: "12rem" }}
+              ></Column>
+              <Column
+                field="product.price"
+                body={priceBodyTemplate}
+                header="Price"
+                sortable
+                style={{ minWidth: "6rem" }}
+              ></Column>
+              <Column
+                field="product.totalQuantity"
+                header="Quantity"
+                sortable
+                style={{ minWidth: "6rem" }}
+              ></Column>
+
+              <Column
+                field="suppler.name"
+                header="Supplier Name"
+                sortable
+                style={{ minWidth: "12rem" }}
+              ></Column>
+              <Column
+                field="warehouse.location"
+                header="Warehouse"
+                sortable
+                style={{ minWidth: "8rem" }}
+              ></Column>
+              <Column
+                field="status"
+                header="Status"
+                sortable
+                style={{ minWidth: "8rem" }}
+              ></Column>
+              <Column
+                field="dateOfOrder"
+                header="Order Date"
+                sortable
+                style={{ minWidth: "8rem" }}
+              ></Column>
+              <Column
+                body={actionBodyTemplate}
+                exportable={true}
+                style={{ minWidth: "12rem" }}
+              ></Column>
+            </DataTable>
+          </div>
         </div>
-            </div>
-            
-        </div>
+      </div>
     );
 }
 export default SupplierDashboard;

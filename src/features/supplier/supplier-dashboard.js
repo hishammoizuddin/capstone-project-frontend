@@ -2,22 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import Navbar from "./navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getSupplierOrders, updateStatus } from "../../store/action/supplier";
-import { Dropdown } from 'primereact/dropdown';
-/* prime react imports */
-import { classNames } from 'primereact/utils';
-import { DataTable } from 'primereact/datatable';
+ /* prime react imports */
+ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
- import { Toast } from 'primereact/toast';
-import { Button } from 'primereact/button';
-import { FileUpload } from 'primereact/fileupload';
-import { Rating } from 'primereact/rating';
+ import { Button } from 'primereact/button';
+ 
 import { Toolbar } from 'primereact/toolbar';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { RadioButton } from 'primereact/radiobutton';
-import { InputNumber } from 'primereact/inputnumber';
-import { Dialog } from 'primereact/dialog';
+ 
 import { InputText } from 'primereact/inputtext';
-import { Tag } from 'primereact/tag';
+ 
 
 function SupplierDashboard(){
     const [username,setUsername] = useState('');
@@ -27,7 +20,7 @@ function SupplierDashboard(){
     const [globalFilter, setGlobalFilter] = useState(null);
     const dt = useRef(null);
     const [successMsg,setSuccessMsg] = useState('');
-    const [size,setSize] = useState(10000);
+    const [size,] = useState(10000);
 
     useEffect(()=>{
         setUsername(localStorage.getItem('username'));

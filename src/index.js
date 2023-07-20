@@ -8,18 +8,15 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import 'primereact/resources/primereact.min.css' ;
 import "primereact/resources/themes/lara-light-indigo/theme.css";
-import CustomerSignUp from './auth/customer-signup';
-import Search from './features/product/product-search';
-import Coupon from './class-components/Coupon';
+import { Provider } from 'react-redux';
+import store from './store';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+    <Provider store={store}>
     <BrowserRouter>
     <App />
     </BrowserRouter>
-
-    // <Coupon/>
-    // <Search/>
-    // <CustomerSignUp/>
+    </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

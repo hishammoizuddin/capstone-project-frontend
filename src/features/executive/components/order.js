@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-
+import { Dropdown } from 'primereact/dropdown';
 /* prime react imports */
 import { classNames } from 'primereact/utils';
 import { DataTable } from 'primereact/datatable';
@@ -26,27 +26,25 @@ function Order(){
     const [size,setSize] = useState(10000);
     const [orders,setOrders] = useState([]);
     const [errMsg,setErrMsg] = useState('');
-
-    /* 
+    const [productId, setProductId] = useState(null);
+    const [warehouseId, setWarehouseId] = useState(null);
+    const [sid, setSid] = useState(null);
+    const [quantity, setQuantity] = useState(null);
+    const [doCall, setDoCall] = useState(false);
+    const [allProducts,setAllProducts] = useState([]);
+    const [warehouses,setWarehouses] = useState([]);
+    const [suppliers,setSuppliers] = useState([]);
+    const [successMsg,setSuccessMsg] = useState('');
+     /* 
       prime react declarations  
     */
-      let emptyProduct = {
-        id: null,
-        name: '',
-        image: null,
-        description: '',
-        category: null,
-        price: 0,
-        quantity: 0,
-        rating: 0,
-        inventoryStatus: 'INSTOCK'
-    };
+      
 
     const [products, setProducts] = useState(null);
     const [productDialog, setProductDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyProduct);
+    const [product, setProduct] = useState('');
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
@@ -66,17 +64,59 @@ function Order(){
             }
         }
         getAllOrders();
+        getProducts();
+        getWarehouses();
+        getSuppliers();
     },[param,supplierId, page,size]);
 
+    const getSuppliers = ()=>{
+        async function getAllSupplier(){
+            try{
+                const response = await axios.get('http://localhost:8181/supplier/all' );
+                setSuppliers(response.data);
+                setErrMsg("");
+            }
+            catch(err){
+                setErrMsg("Network Issue, Something has broken");
+            }
+        }
+        getAllSupplier();
+    }
+    const getWarehouses = ()=>{
+        async function getAllWarehouse(){
+            try{
+                const response = await axios.get('http://localhost:8181/warehouse/all');
+                setWarehouses(response.data);
+                setErrMsg("");
+            }
+            catch(err){
+                setErrMsg("Network Issue, Something has broken");
+            }
+        }
+        getAllWarehouse();
+    }
+    const getProducts = () =>{
+        /* Call All APIs to get All Products, Warehouses and Suppliers */
+        async function getAllProducts(){
+            try{
+                const response = await axios.get('http://localhost:8181/product/all');
+                setAllProducts(response.data);
+                setErrMsg("");
+            }
+            catch(err){
+                setErrMsg("Network Issue, Something has broken");
+            }
+        }
+         getAllProducts();
+        
+    }
     /* prime react functions */
     const formatCurrency = (value) => {
         return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
     };
 
     const openNew = () => {
-        setProduct(emptyProduct);
-        setSubmitted(false);
-        setProductDialog(true);
+          setDoCall(true);
     };
 
     const hideDialog = () => {
@@ -98,8 +138,9 @@ function Order(){
 
     const leftToolbarTemplate = () => {
         return (
-            <div className="flex flex-wrap gap-2">
-                <Button label="New" icon="pi pi-plus" severity="success" onClick={openNew} />
+          <div className="flex flex-wrap gap-2">
+                <Button label="New" icon="pi pi-plus" severity="success" onClick={()=>setSuccessMsg('')} data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"/>
              </div>
         );
     };
@@ -156,32 +197,223 @@ function Order(){
         </div>
     );
    
+    const allOrder = async ()=>{
+        console.log(productId + '--' + warehouseId + '--' + sid + '--' + quantity)
+
+        try {
+             const response  = await axios.post(
+              "http://localhost:8181/order/entry",
+              {
+                productId:  productId,
+                warehouseId: warehouseId,
+                supplierId: sid,
+                quantity: quantity
+              }
+            );
+            setSuccessMsg('Order placed successfully!!!');
+            orders.push(response.data);
+          } catch (err) {
+            console.log(err.msg);
+          }
+    }
     return (
-        <div>
-            <Toast ref={toast} />
-            <div className="card">
-            <Toolbar className="mb-4" start={leftToolbarTemplate} end={rightToolbarTemplate}></Toolbar>
- 
-            <DataTable ref={dt} value={orders}  
-                        dataKey="id"  paginator rows={size} rowsPerPageOptions={[5, 10, 25]}
-                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"  /** header={header} */>
-                     <Column field="id" header="Product ID" sortable style={{ minWidth: '10rem' }}></Column>
-                    <Column field="product.title" header="Product Name" sortable style={{ minWidth: '12rem' }}></Column>
-                    <Column field="product.price" body={priceBodyTemplate} header="Price" sortable style={{ minWidth: '6rem' }}></Column>
-                     <Column field="product.totalQuantity" header="Quantity" sortable style={{ minWidth: '8rem' }}></Column>
-                    <Column field="product.category.name" header="Category" sortable style={{ minWidth: '10rem' }}></Column>
-                    <Column field="suppler.name" header="Supplier Name"   sortable style={{ minWidth: '12rem' }}></Column>
-                    <Column field="suppler.address.city" header="City"   sortable style={{ minWidth: '12rem' }}></Column>
-                    <Column field="status" header="Status"   sortable style={{ minWidth: '12rem' }}></Column>
-                    <Column field="dateOfOrder" header="Order Date"   sortable style={{ minWidth: '12rem' }}></Column>
+      <div>
+        {/** Bootstrap Modal */}
 
-                 </DataTable>
+        <div
+          className="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1 className="modal-title fs-5" id="staticBackdropLabel">
+                  Add new order
+                </h1>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
 
+              <div className="modal-body">
+                {/* Show success msg*/}
+                {successMsg === "" ? (
+                  ""
+                ) : (
+                  <div class="alert alert-primary" role="alert">
+                    {successMsg}
+                  </div>
+                )}
+                <label>Which Product: </label>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={(e) => setProductId(e.target.value)}
+                >
+                    <option>--select product--</option>
+                  {allProducts.map((p) => {
+                    return (
+                        
+                      <option
+                        value={p.id}
+                        key={p.id}
+                        onChange={(e) => setProductId(e.target.value)}
+                      >
+                        
+                        {p.category.name} : {p.title}
+                      </option>
+                    );
+                  })}
+                </select>
+                <br />
+                <label>In which warehouse:</label>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={(e) => setWarehouseId(e.target.value)}
+                >
+                    <option>--select warehouse location--</option>
+                  {warehouses.map((w) => {
+                    return (
+                      <option value={w.id} key={w.id}>
+                        {" "}
+                        {w.location}{" "}
+                      </option>
+                    );
+                  })}
+                </select>
+                <br />
+                <label>Order for Supplier:</label>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={(e) => setSid(e.target.value)}
+                >
+                    <option>--select supplier--</option>
+                  {suppliers.map((s) => {
+                    return (
+                      <option value={s.id} key={s.id}>
+                        {" "}
+                        {s.name} , {s.address.city}{" "}
+                      </option>
+                    );
+                  })}
+                </select>
+                <br />
+                <label>Quantity:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="exampleFormControlInput1"
+                  placeholder="mention quantity to be ordered"
+                  onChange={(e) => setQuantity(e.target.value)}
+                ></input>
+                <br />
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => allOrder()}
+                >
+                  Add Order
+                </button>
+              </div>
             </div>
-            
+          </div>
         </div>
-    )
+
+        <div className="card">
+          <Toolbar
+            className="mb-4"
+            start={leftToolbarTemplate}
+            end={rightToolbarTemplate}
+          ></Toolbar>
+
+          <DataTable
+            ref={dt}
+            value={orders}
+            dataKey="id"
+            paginator
+            rows={size}
+            rowsPerPageOptions={[5, 10, 25]}
+            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" /** header={header} */
+            globalFilter={globalFilter}      
+          >
+            <Column
+              field="id"
+              header="Product ID"
+              sortable
+              style={{ minWidth: "8rem" }}
+            ></Column>
+            <Column
+              field="product.title"
+              header="Product Name"
+              sortable
+              style={{ minWidth: "12rem" }}
+            ></Column>
+            <Column
+              field="product.price"
+              body={priceBodyTemplate}
+              header="Price"
+              sortable
+              style={{ minWidth: "6rem" }}
+            ></Column>
+            <Column
+              field="product.totalQuantity"
+              header="Quantity"
+              sortable
+              style={{ minWidth: "6rem" }}
+            ></Column>
+            <Column
+              field="product.category.name"
+              header="Category"
+              sortable
+              style={{ minWidth: "10rem" }}
+            ></Column>
+            <Column
+              field="suppler.name"
+              header="Supplier Name"
+              sortable
+              style={{ minWidth: "12rem" }}
+            ></Column>
+            <Column
+              field="warehouse.location"
+              header="Warehouse Location"
+              sortable
+              style={{ minWidth: "14rem" }}
+            ></Column>
+            <Column
+              field="status"
+              header="Status"
+              sortable
+              style={{ minWidth: "12rem" }}
+            ></Column>
+            <Column
+              field="dateOfOrder"
+              header="Order Date"
+              sortable
+              style={{ minWidth: "12rem" }}
+            ></Column>
+          </DataTable>
+        </div>
+      </div>
+    );
 }
 
 export default Order;

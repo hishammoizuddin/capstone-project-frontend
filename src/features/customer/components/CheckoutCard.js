@@ -27,6 +27,12 @@ const CheckoutCard = ({ product, promptRemove }) => {
                             <p className="card-text"> {product.tagline} </p>
                             <p className="card-text"> {product.description} </p>
                             <p className="card-text"> Price: {product.price}$ </p>
+                            {/* <div className="row">
+                                <div className="col-sm-6 col-lg-6 col-md-6">
+                                    <input type="number" id="typeNumber" class="form-control" />
+                                    <label className="form-label" for="typeNumber"> Quantity </label>
+                                </div>
+                            </div> */}
                             <a href="#!" className="btn btn-primary" onClick={()=>promptRemove(product.id)}>Remove from Cart</a>
                         </div>
                     </div>

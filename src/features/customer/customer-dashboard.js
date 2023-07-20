@@ -7,33 +7,44 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import CustomerCart from "./customer-cart";
 import AddProductModal from "./components/AddProductModal";
+import Review from "./components/Review";
 
 function CustomerDashboard() {
     const [productList, setProductList] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
     const [cartList, setCartList] = useState([]);
+    const [reviewedProduct, setReviewedProduct] = useState();
     const [isCart, setIsCart] = useState(false);
+    const [isReview, setIsReview] = useState(false);
     const [basicModal, setBasicModal] = useState(false);
     const [addedProduct, setAddedProduct] = useState('');
 
     useEffect(() => {
         async function fetchData() {
-            await axios.get('http://localhost:8181/product/all')
-                .then(response => {
-                    setProductList(response.data);
-                    setAllProducts(response.data);
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-                .finally(() => {
-                    //always gets executed
-                })
+            try {
+                const response = await axios.get('http://localhost:8181/product/all');
+                const products = response.data;
+                await Promise.all(
+                    products.map(async(product) => {
+                        const avgRating = await axios.get('http://localhost:8181/review/rating/' + product.id);
+                        const count = await axios.get('http://localhost:8181/review/count/' + product.id);
+                        product.rating = avgRating.data.toFixed(2);
+                        product.count = count.data;
+                    })
+                )
+                setProductList(response.data);
+                setAllProducts(response.data);
+
+            }
+            catch (err) {
+                console.log(err);
+            }
         }
         fetchData();
     }, [])
     const filter = (id) => {
         setIsCart(false);
+        setIsReview(false);
         if (id === -1) {
             // get all products
             setProductList(allProducts);
@@ -46,7 +57,6 @@ function CustomerDashboard() {
         const newCart = cartList.concat(product);
         setCartList(newCart);
         setBasicModal(true);
-        setTimeout(() => {  setBasicModal(false) }, 2000);
         setAddedProduct(product.title);
     }
 
@@ -57,6 +67,7 @@ function CustomerDashboard() {
 
     const searchTitle = async (title) => {
         setIsCart(false);
+        setIsReview(false);
         await axios.get('http://localhost:8181/product/search/' + title)
             .then(response => {
                 setProductList(response.data)
@@ -72,6 +83,10 @@ function CustomerDashboard() {
     }
 
     const viewCart = () => setIsCart(true);
+    const viewReview = (product) => {
+        setReviewedProduct(product);
+        setIsReview(true);
+    }
     return (
         <div>
             <AddProductModal
@@ -91,7 +106,16 @@ function CustomerDashboard() {
                     />
                 </div>
                 <h1>Customer Dashboard</h1>
-                {!isCart ? (
+                {isCart ? (
+                    <CustomerCart
+                    cartList={cartList}
+                    removeProduct={removeProduct}
+                />
+                ) : isReview ? (
+                    <Review
+                        product={reviewedProduct}
+                    />
+                ) : (
                     <div className="row d-flex justify-content-center">
                         <div className="col-sm-10 col-lg-10 col-md-10">
                             <div className="row d-flex">
@@ -101,6 +125,7 @@ function CustomerDashboard() {
                                             <ProductCard
                                                 product={product}
                                                 addProduct={addProduct}
+                                                viewReview={viewReview}
                                             />
                                         )
                                     })
@@ -108,11 +133,6 @@ function CustomerDashboard() {
                             </div>
                         </div>
                     </div>
-                ) : (
-                    <CustomerCart
-                        cartList={cartList}
-                        removeProduct={removeProduct}
-                    />
                 )}
             </MDBContainer>
         </div>

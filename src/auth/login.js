@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from 'react-router'
+import MainNavbar from "./navbar";
 
 function Login() {
 
@@ -14,7 +15,7 @@ function Login() {
     }
 
     const doLogin = () => {
-        if(username === 'admin@incedoinc.com' && password === 'admin') {
+        if(username === 'admin@incedoinc.com' && password === 'admin@123') {
             navigate('/admin');
             return;
         }
@@ -65,7 +66,9 @@ function Login() {
 
 
     return (
-        <div className="container py-5">
+        <div>
+            <MainNavbar/>
+            <br/><br/>
             <div className="row justify-content-center">
                 <div className="col-md-6">
                     <div className="card border-primary rounded shadow">

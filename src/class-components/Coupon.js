@@ -1,4 +1,5 @@
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css"; // Add this line to import bootstrap CSS.
 
 const { Component } = require("react");
 
@@ -36,14 +37,13 @@ class Coupon extends Component{
 
     render(){
         return (
-          <div>
+          <div className="container">
             {
                 this.state.coupons.map((c,index)=>{
                     return (
-                      <div key={index} className="card" style={{ width: "18rem" }}>
+                      <div key={index} className="card mt-4 shadow">
                         <div className="card-body">
                           <h5 className="card-title">{c.couponCode}</h5>
-
                           <p className="card-text">
                             Discount: {c.discount} % <br />
                             Min. Total Amount: {c.totalAmount}
@@ -56,28 +56,37 @@ class Coupon extends Component{
             
             <hr />
             <h3>Enter New Coupon Details</h3>
-            <label>Coupon Code: </label>
-            <input type="text" 
-                   name="couponCode"
-                   value={this.state.coupon.couponCode}
-                   onChange={this.changeHandler}
-            /> 
-            <br /><br />
-            <label>Enter Discount: </label>
-            <input type="text" 
-                   name="discount"
-                   value={this.state.coupon.discount}
-                   onChange={this.changeHandler}
-            /> 
-            <br /><br />
-            <label>Enter Min Amount : </label>
-            <input type="text" 
-                   name="totalAmount"
-                   value={this.state.coupon.totalAmount}
-                   onChange={this.changeHandler}
-            /> 
-            <br /><br />
-            <button onClick={this.addCoupon}>Add Coupon</button>
+            <div className="form-group">
+              <label>Coupon Code: </label>
+              <input type="text" 
+                     className="form-control" 
+                     name="couponCode"
+                     value={this.state.coupon.couponCode}
+                     onChange={this.changeHandler}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Enter Discount: </label>
+              <input type="text" 
+                     className="form-control" 
+                     name="discount"
+                     value={this.state.coupon.discount}
+                     onChange={this.changeHandler}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Enter Min Amount : </label>
+              <input type="text" 
+                     className="form-control" 
+                     name="totalAmount"
+                     value={this.state.coupon.totalAmount}
+                     onChange={this.changeHandler}
+              /> 
+            </div>
+            
+            <button className="btn btn-primary mt-2" onClick={this.addCoupon}>Add Coupon</button>
           </div>
         );
     }

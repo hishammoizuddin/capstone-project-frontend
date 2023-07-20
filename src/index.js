@@ -10,12 +10,14 @@ import 'primereact/resources/primereact.min.css' ;
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import CustomerSignUp from './auth/customer-signup';
 import Search from './features/product/product-search';
+import Coupon from './class-components/Coupon';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
     <App />
     </BrowserRouter>
 
+    // <Coupon/>
     // <Search/>
     // <CustomerSignUp/>
 );

@@ -1,12 +1,25 @@
 import axios from "axios";
 import { Component } from "react";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+
+import { useLocation } from 'react-router-dom';
+import MainNavbar from "./navbar";
+
+export function withRouter(Component) {
+  return function WrappedComponent(props) {
+    const navigate = useNavigate();
+    const location = useLocation();
+    return <Component {...props} navigate={navigate} location={location} />;
+  };
+}
+
 
 class CustomerSignUp extends Component {
 
     constructor() {
         super();
         this.state = {
+            isClicked: false,
             customers: [],
             users: [],
             addresses: [],
@@ -34,12 +47,22 @@ class CustomerSignUp extends Component {
     }
 
     componentDidMount() {
-
     }
 
 
 
     render() {
+
+        return(
+            <div>
+                <MainNavbar/>
+                {this.viewSignUpPage()}
+            </div>
+        );
+    }
+
+    viewSignUpPage() {
+
         return (
             <div className="container py-5">
                 <div className="row justify-content-center">
@@ -139,7 +162,7 @@ class CustomerSignUp extends Component {
                                             onChange={this.changeHandler}
                                         />
                                     </div>
-    
+
                                     <button type="button" className="btn btn-primary mt-3" onClick={
                                         this.addCustomer
                                         }>Sign Up</button>
@@ -178,12 +201,13 @@ class CustomerSignUp extends Component {
           tempArray.push(response.data);
           this.setState({
             customers : tempArray
-          })
+          }, () => this.props.navigate('/customer'))
         } catch (err) {
           console.log(err.msg);
         }
 
     }
+
  
     changeHandler = (e) => {
         this.setState({
@@ -204,5 +228,5 @@ class CustomerSignUp extends Component {
 
 }
 
-export default CustomerSignUp;
+export default withRouter(CustomerSignUp);
 

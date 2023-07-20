@@ -1,6 +1,7 @@
 import { Rating } from 'primereact/rating';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import ReviewModal from './ReviewModal';
 const Review = ({ product }) => {
     const selectImage = (cid) => {
         // Just placeholders for images, if time permits will change this to maybe using S3 bucket
@@ -13,6 +14,7 @@ const Review = ({ product }) => {
         }
     }
     const [reviews, setReviews] = useState([]);
+    const [basicModal, setBasicModal] = useState(false);
     useEffect(() => {
         async function fetchData() {
             try {
@@ -25,8 +27,16 @@ const Review = ({ product }) => {
         }
         fetchData();
     }, [])
+
     return (
         <div className="row d-flex justify-content-center">
+            <ReviewModal 
+                setBasicModal={setBasicModal} 
+                basicModal={basicModal}
+                reviews={reviews}
+                setReviews={setReviews}
+                product={product}
+            />
             <div className="col-sm-6 col-lg-8 col-md-8 mb-4">
                 <div className="card">
                     <div className="row d-flex justify-content-center">
@@ -49,7 +59,10 @@ const Review = ({ product }) => {
                 </div>
             </div>
             <div className="col-sm-12 col-lg-12 col-md-12 mb-4 d-flex justify-content-center">
-                < Rating className='mb-6' readOnly value={product.rating} cancel={false}/>
+                < Rating readOnly value={product.rating} cancel={false}/>
+            </div>
+            <div className="mb-6 col-sm-12 col-lg-12 col-md-12 mb-4 d-flex justify-content-center">
+                <a href="#!" className="btn btn-primary" onClick={()=>{setBasicModal(true)}}> Add a Review </a>
             </div>
             {reviews.map((review, index) => {
                 return (

@@ -11,7 +11,7 @@ const CheckoutCard = ({ product, promptRemove }) => {
     }
     return (
         <div className="col-sm-6 col-lg-8 col-md-8 mb-4">
-            <div className="card" style={{ borderColor: 'red' }}>
+            <div className="card">
                 <div className="row d-flex justify-content-center">
                     <div className="col-sm-6 col-lg-6 col-md-6 d-flex justify-content-center">
                         <div className="bg-image hover-overlay ripple" data-mdb-ripple-color="light">

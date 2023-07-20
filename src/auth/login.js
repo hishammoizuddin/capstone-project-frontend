@@ -58,6 +58,10 @@ function Login() {
                 // go to supplier dashboard - using navigate from react router
                 navigate('/executive');
                 break;
+            case "MANAGER":
+                //go to manager dashboard : use navigate from react-router
+                navigate("/manager");
+                break;
             default:
                 setErrMsg('Unauthorized! contact admin')
                 break;

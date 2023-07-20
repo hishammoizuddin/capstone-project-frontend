@@ -52,7 +52,6 @@ const Review = ({ product }) => {
                 < Rating className='mb-6' readOnly value={product.rating} cancel={false}/>
             </div>
             {reviews.map((review, index) => {
-                console.log(review);
                 return (
                     <div className="col-sm-6 col-lg-8 col-md-8 mb-4">
                     <div className="row">

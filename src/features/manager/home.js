@@ -42,8 +42,7 @@ function ManagerHome(){
     const leftToolbarTemplate = () => {
         return (
           <div className="flex flex-wrap gap-2" style={{fontFamily: "bold", fontSize: '18px'}}>
-                 Welcome {localStorage.getItem('username').split("@")[0]},<br />
-                 Email: {localStorage.getItem('username')}
+                 Welcome {localStorage.getItem('username').split("@")[0]}<br />
              </div>
         );
     };
@@ -56,7 +55,8 @@ function ManagerHome(){
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
                 &nbsp;&nbsp;&nbsp;
             </span>
-                     <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />;
+                     <Button label="Export as CSV" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} 
+                     style={{ backgroundColor: 'blue', color: 'white' }}/>
                      </div>
 
         )
@@ -70,7 +70,7 @@ function ManagerHome(){
 
     const header = (
         <div className="flex flex-wrap gap-2   justify-content-between">
-            <h4 className="m-0">Orders delivered by suppliers(To be checked and RECEIVED)</h4>
+            <h4 className="m-0">Orders delivered by suppliers (to be checked and received)</h4>
              
         </div>
     );

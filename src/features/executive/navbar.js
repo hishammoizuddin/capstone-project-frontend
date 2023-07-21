@@ -17,6 +17,7 @@ import {
   } from 'mdb-react-ui-kit';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import imslogo from '../../images/logo-color.png';
 
 function Navbar(){
  const [showBasic, setShowBasic] = useState(false);
@@ -51,7 +52,18 @@ const  onHomeSelect=()=>{
     return(
         <MDBNavbar expand='lg' light bgColor='light'>
         <MDBContainer fluid>
-          <MDBNavbarBrand  >Executive Dashboard</MDBNavbarBrand>
+          <MDBNavbarBrand  >
+          <img
+              src={imslogo}
+              height='50'
+              width='70'
+              alt=''
+              loading='lazy'
+            /> &nbsp;
+            <div className="flex flex-wrap gap-2" style={{fontFamily: "bold"}}>
+                Inventory Management System - Executive Portal
+            </div>
+          </MDBNavbarBrand>
   
           <MDBNavbarToggler
             aria-controls='navbarSupportedContent'

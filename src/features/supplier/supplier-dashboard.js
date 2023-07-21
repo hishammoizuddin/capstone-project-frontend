@@ -43,9 +43,8 @@ function SupplierDashboard(){
 
     const leftToolbarTemplate = () => {
       return (
-        <div className="flex flex-wrap gap-2" style={{fontFamily: "cursive", fontSize: '18px'}}>
-               Welcome {localStorage.getItem('username').split("@")[0]},<br />
-               Email: {localStorage.getItem('username')}
+        <div className="flex flex-wrap gap-2" style={{fontFamily: "bold", fontSize: '18px'}}>
+               Welcome {localStorage.getItem('username').split("@")[0]}<br />
            </div>
       );
   };
@@ -58,7 +57,8 @@ function SupplierDashboard(){
                 <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
                 &nbsp;&nbsp;&nbsp;
             </span>
-                     <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />;
+            <Button label="Export as CSV" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} 
+                     style={{ backgroundColor: 'blue', color: 'white' }}/>
                      </div>
 
         )
@@ -72,7 +72,7 @@ function SupplierDashboard(){
 
     const header = (
         <div className="flex flex-wrap gap-2   justify-content-between">
-            <h4 className="m-0">Orders placed by executive(To be delivered)</h4>
+            <h4 className="m-0">Orders placed by executive (to be delivered)</h4>
              
         </div>
     );

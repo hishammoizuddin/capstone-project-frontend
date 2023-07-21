@@ -11,13 +11,13 @@ function ExecutiveDashboard(){
     const process = ()=>{
         if(!param.get('page') ){
             return <div>
-                <Home /> 
+                <Sales /> 
             </div>
             }
             else
         if(param.get('page') === 'home' ){
         return <div>
-            <Home /> 
+            <Sales /> 
         </div>
         }
         else

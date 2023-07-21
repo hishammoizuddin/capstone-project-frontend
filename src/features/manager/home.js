@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Navbar from "./navbar";
-import { useDispatch, useSelector } from "react-redux";
+ import { useDispatch, useSelector } from "react-redux";
 import { getSupplierOrders, updateStatus } from "../../store/action/supplier";
  /* prime react imports */
  import { DataTable } from 'primereact/datatable';
@@ -10,13 +9,12 @@ import { Column } from 'primereact/column';
 import { Toolbar } from 'primereact/toolbar';
  
 import { InputText } from 'primereact/inputtext';
- 
-
-function SupplierDashboard(){
+import { getManagerOrders } from "../../store/action/manager";
+function ManagerHome(){
     const [username,setUsername] = useState('');
     const [,setToken] = useState('');
     const dispatch = useDispatch();
-    const {list} = useSelector(((state)=>state.supplier));
+    const {list} = useSelector(((state)=>state.manager));
     const [globalFilter, setGlobalFilter] = useState(null);
     const dt = useRef(null);
     const [successMsg,setSuccessMsg] = useState('');
@@ -25,7 +23,7 @@ function SupplierDashboard(){
     useEffect(()=>{
         setUsername(localStorage.getItem('username'));
         setToken(localStorage.getItem('token')); 
-        dispatch(getSupplierOrders()); 
+        dispatch(getManagerOrders()); 
         
         //a trigger that starts series of ops which will give list of orders to state
         
@@ -42,13 +40,13 @@ function SupplierDashboard(){
     };
 
     const leftToolbarTemplate = () => {
-      return (
-        <div className="flex flex-wrap gap-2" style={{fontFamily: "cursive", fontSize: '18px'}}>
-               Welcome {localStorage.getItem('username').split("@")[0]},<br />
-               Email: {localStorage.getItem('username')}
-           </div>
-      );
-  };
+        return (
+          <div className="flex flex-wrap gap-2" style={{fontFamily: "cursive", fontSize: '18px'}}>
+                 Welcome {localStorage.getItem('username').split("@")[0]},<br />
+                 Email: {localStorage.getItem('username')}
+             </div>
+        );
+    };
 
     const rightToolbarTemplate = () => {
         return(
@@ -72,7 +70,7 @@ function SupplierDashboard(){
 
     const header = (
         <div className="flex flex-wrap gap-2   justify-content-between">
-            <h4 className="m-0">Orders placed by executive(To be delivered)</h4>
+            <h4 className="m-0">Orders delivered by suppliers(To be checked and RECEIVED)</h4>
              
         </div>
     );
@@ -85,21 +83,13 @@ function SupplierDashboard(){
         return (
             <React.Fragment>
                  <button className="btn btn-info" 
-                 onClick={()=>updateStatusv1(rowData.id, 'ACCEPTED')} >ACCEPTED</button>
-                 &nbsp;&nbsp;
-                 <button className="btn btn-danger"
-                 onClick={()=>updateStatusv1(rowData.id, 'REJECTED')} >REJECTED</button>
-                 &nbsp;&nbsp;
-                 <button className="btn btn-success" 
-                 onClick={()=>updateStatusv1(rowData.id, 'DELIVERED')} >DELIVERED</button>
-        </React.Fragment>
+                 onClick={()=>updateStatusv1(rowData.id, 'RECEIVED')} >RECEIVED</button>
+                </React.Fragment>
         );
     };
     return (
       <div>
-        <div className="mb-4">
-          <Navbar />
-        </div>
+         
         <div>
           <div className="card">
             <Toolbar
@@ -181,4 +171,4 @@ function SupplierDashboard(){
       </div>
     );
 }
-export default SupplierDashboard;
+export default ManagerHome;

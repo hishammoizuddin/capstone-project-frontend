@@ -16,6 +16,7 @@ function Login() {
 
     const doLogin = () => {
         if(username === 'admin@incedoinc.com' && password === 'admin@123') {
+            localStorage.setItem('username', username);
             navigate('/admin');
             return;
         }

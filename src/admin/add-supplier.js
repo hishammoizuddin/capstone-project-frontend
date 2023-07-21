@@ -14,22 +14,20 @@ export function withRouter(Component) {
 }
 
 
-class CustomerSignUp extends Component {
+class SupplierSignUp extends Component {
 
     constructor() {
         super();
         this.state = {
             isClicked: false,
-            customers: [],
+            suppliers: [],
             users: [],
             addresses: [],
             errorMsg: '',
-            passwordError: '',
+            passwordError:'',
 
-            customer: {
+            supplier: {
                 name: '',
-                contact: '',
-                age: '',
             },
 
             user: {
@@ -54,6 +52,8 @@ class CustomerSignUp extends Component {
         const passwordRegEx = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
         return passwordRegEx.test(String(password));
     }
+    
+
 
 
     render() {
@@ -61,21 +61,21 @@ class CustomerSignUp extends Component {
         return(
             <div>
                 <MainNavbar/>
-                {this.viewSignUpPage()}
+                {this.viewSupplierSignUp()}
             </div>
         );
     }
 
-    viewSignUpPage() {
+    viewSupplierSignUp() {
 
         return (
             <div className="container py-5">
                 <div className="row justify-content-center">
                     <div className="col-md-8">
                         <div className="card border-primary rounded shadow">
-                            <div className="card-header bg-primary text-white rounded-top">Customer Sign Up</div>
+                            <div className="card-header bg-primary text-white rounded-top">Add a Supplier - Sign Up</div>
                             <div className="card-body">
-                                <p className="card-text">Enter your details below to sign up</p>
+                                <p className="card-text">Complete the details below to register a Supplier in the database</p>
                                 
                                 <form>
                                     <div className="mb-3">
@@ -104,27 +104,7 @@ class CustomerSignUp extends Component {
                                         <input type="text"
                                             className="form-control border-primary"
                                             name="name"
-                                            value={this.state.customer.name}
-                                            onChange={this.changeHandler}
-                                        />
-                                    </div>
-    
-                                    <div className="mb-3">
-                                        <label className="form-label">Contact:</label>
-                                        <input type="text"
-                                            className="form-control border-primary"
-                                            name="contact"
-                                            value={this.state.customer.contact}
-                                            onChange={this.changeHandler}
-                                        />
-                                    </div>
-    
-                                    <div className="mb-3">
-                                        <label className="form-label">Age:</label>
-                                        <input type="text"
-                                            className="form-control border-primary"
-                                            name="age"
-                                            value={this.state.customer.age}
+                                            value={this.state.supplier.name}
                                             onChange={this.changeHandler}
                                         />
                                     </div>
@@ -170,8 +150,8 @@ class CustomerSignUp extends Component {
                                     </div>
 
                                     <button type="button" className="btn btn-primary mt-3" onClick={
-                                        this.addCustomer
-                                        }>Sign Up</button>
+                                        this.addSupplier
+                                        }>Add Supplier</button>
                                 </form>
                             </div>
                         </div>
@@ -181,10 +161,8 @@ class CustomerSignUp extends Component {
         );
     }
     
-    
 
-    addCustomer=async ()=>{
-
+    addSupplier=async ()=>{
         if (this.state.passwordError) {
             console.log("Password does not meet the requirements.");
             return;
@@ -192,11 +170,9 @@ class CustomerSignUp extends Component {
 
         try {
           const response = await axios.post(
-            "http://localhost:8181/customer/add",
+            "http://localhost:8181/executive/supplier/add",
             {
-                name: this.state.customer.name,
-                contact: this.state.customer.contact,
-                age: this.state.customer.age,
+                name: this.state.supplier.name,
                 user:{
                     username: this.state.user.username,
                     password: this.state.user.password,
@@ -209,11 +185,12 @@ class CustomerSignUp extends Component {
                 }
             }
           );
-          let tempArray = this.state.customers;
+          let tempArray = this.state.suppliers;
           tempArray.push(response.data);
+          localStorage.setItem('username', this.state.user.username)
           this.setState({
-            customers : tempArray
-          }, () => this.props.navigate('/customer'))
+            suppliers : tempArray
+          }, () => this.props.navigate('/supplier'))
         } catch (err) {
           console.log(err.msg);
         }
@@ -221,23 +198,6 @@ class CustomerSignUp extends Component {
     }
 
  
-    // changeHandler = (e) => {
-    //     this.setState({
-    //         customer: {
-    //             ...this.state.customer,
-    //             [e.target.name]: e.target.value
-    //         },
-    //         user:{
-    //             ...this.state.user,
-    //             [e.target.name]: e.target.value
-    //         },
-    //         address:{
-    //             ...this.state.address,
-    //             [e.target.name]: e.target.value
-    //         }
-    //     })
-    // }
-
     changeHandler = (e) => {
         if (e.target.name === "password") {
             if (!this.validatePassword(e.target.value)) {
@@ -246,10 +206,10 @@ class CustomerSignUp extends Component {
                 this.setState({ passwordError: "" });
             }
         }
-    
+
         this.setState({
-            customer: {
-                ...this.state.customer,
+            supplier: {
+                ...this.state.supplier,
                 [e.target.name]: e.target.value
             },
             user:{
@@ -262,9 +222,8 @@ class CustomerSignUp extends Component {
             }
         })
     }
-    
 
 }
 
-export default withRouter(CustomerSignUp);
+export default withRouter(SupplierSignUp);
 

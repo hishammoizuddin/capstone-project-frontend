@@ -65,18 +65,17 @@ const  onHomeSelect=()=>{
           <MDBCollapse navbar show={showBasic}>
             <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
             <MDBNavbarItem>
-                <MDBNavbarLink  onClick={()=>onHomeSelect()}>
-                   Home  
-                </MDBNavbarLink>
+            <MDBNavbarLink onClick={()=>onSalesSelect()}>Sales Transactions
+            </MDBNavbarLink>
+                     
+                 
               </MDBNavbarItem>
               <MDBNavbarItem>
                 <MDBNavbarLink  onClick={()=>onProductSelect()}>
                   View Products 
                 </MDBNavbarLink>
               </MDBNavbarItem>
-              <MDBNavbarItem>
-                <MDBNavbarLink onClick={()=>onSalesSelect()}>View Sales</MDBNavbarLink>
-              </MDBNavbarItem>
+              
   
               <MDBNavbarItem>
                 <MDBDropdown>

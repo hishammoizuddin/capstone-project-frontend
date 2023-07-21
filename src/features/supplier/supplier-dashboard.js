@@ -42,13 +42,13 @@ function SupplierDashboard(){
     };
 
     const leftToolbarTemplate = () => {
-        return (
-          <div className="flex flex-wrap gap-2">
-                <Button label="New" icon="pi pi-plus" severity="success" onClick={()=>setSuccessMsg('')} data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"/>
-             </div>
-        );
-    };
+      return (
+        <div className="flex flex-wrap gap-2" style={{fontFamily: "cursive", fontSize: '18px'}}>
+               Welcome {localStorage.getItem('username').split("@")[0]},<br />
+               Email: {localStorage.getItem('username')}
+           </div>
+      );
+  };
 
     const rightToolbarTemplate = () => {
         return(

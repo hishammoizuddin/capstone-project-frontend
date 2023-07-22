@@ -1,4 +1,3 @@
-import Footer from "../core/footer";
 import AdminNavbar from "./navbar";
 
 function Admin() {

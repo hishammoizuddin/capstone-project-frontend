@@ -29,6 +29,7 @@ const ProductCard = ({ product, addProduct, viewReview }) => {
                     <p className="card-text" style={{ overflow: "hidden", overflowWrap: "break-word", textOverflow: "ellipsis", height: "30px" }}> {product.tagline} </p>
                     <p className="card-text"> {product.description} </p>
                     <p className="card-text"> Price: {product.price}$ </p>
+                    <p className="card-text"> {product.totalQuantity} in stock </p>
                     <a href="#!" className="btn btn-primary" onClick={() => addProduct(product)}>Add to Cart</a>
                 </div>
             </div>

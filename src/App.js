@@ -6,6 +6,7 @@ import Logout from './auth/logout';
 import Admin from './admin/admin-dashboard';
 import ExecutiveDashboard from './features/executive/executive-dashboard';
 import ManagerDashboard from './features/manager/manager-dashboard';
+import CustomerDashboard from './features/customer/customer-dashboard';
  
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/executive' element={<ExecutiveDashboard />}></Route>
         <Route path='/manager' element={<ManagerDashboard />}></Route>
         <Route path='/logout' element={<Logout />}></Route>
+        <Route path='/customer' element={<CustomerDashboard/>}> </Route>
       </Routes>
   </div>
   );

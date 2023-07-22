@@ -30,10 +30,11 @@ function CustomerDashboard() {
                         const count = await axios.get('http://localhost:8181/review/count/' + product.id);
                         product.rating = avgRating.data.toFixed(2);
                         product.count = count.data;
+                        product.quantity = 1;
                     })
                 )
-                setProductList(response.data);
-                setAllProducts(response.data);
+                setProductList(products);
+                setAllProducts(products);
 
             }
             catch (err) {
@@ -54,8 +55,16 @@ function CustomerDashboard() {
         }
     }
     const addProduct = (product) => {
-        const newCart = cartList.concat(product);
-        setCartList(newCart);
+        let newCart = [...cartList];
+        const prodArr = newCart.filter(prod => prod.id === product.id);
+        if (prodArr.length > 0) {
+            const product = prodArr[0];
+            product.quantity = product.quantity + 1;
+            setCartList(newCart);
+        } else {
+            newCart.push(product);
+            setCartList(newCart);
+        }
         setBasicModal(true);
         setAddedProduct(product.title);
     }
@@ -64,6 +73,15 @@ function CustomerDashboard() {
         const newCart = cartList.filter(product => product.id !== id);
         setCartList(newCart);
     }
+
+    const updateProductQuantity = (pid, quantity) => {
+        let newCart = [...cartList];
+        let product = newCart.filter(product => product.id === pid)[0];
+        product.quantity = quantity;
+        console.log(product);
+        setCartList(newCart);
+    }
+    
 
     const searchTitle = async (title) => {
         setIsCart(false);
@@ -109,7 +127,9 @@ function CustomerDashboard() {
                 {isCart ? (
                     <CustomerCart
                     cartList={cartList}
+                    setCartList={setCartList}
                     removeProduct={removeProduct}
+                    updateProductQuantity={updateProductQuantity}
                 />
                 ) : isReview ? (
                     <Review

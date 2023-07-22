@@ -1,4 +1,8 @@
-const CheckoutCard = ({ product, promptRemove }) => {
+import { useState } from "react"
+
+const CheckoutCard = ({ product, promptRemove, updateProductQuantity }) => {
+    // console.log(product)
+    const [quantity, setQuantity] = useState(product.quantity)
     const selectImage = (cid) => {
         // Just placeholders for images, if time permits will change this to maybe using S3 bucket
         if (cid === 1) {
@@ -8,6 +12,10 @@ const CheckoutCard = ({ product, promptRemove }) => {
         } else {
             return "https://i5.walmartimages.com/asr/16062593-5d6a-4293-966e-a0757d011a5a.1a4af15cf03d358ec950a03e5c8ba5e8.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF"
         }
+    }
+    const changeHandler = (e) => {
+        updateProductQuantity(product.id, e.target.value);
+        setQuantity(e.target.value);
     }
     return (
         <div className="col-sm-6 col-lg-8 col-md-8 mb-4">
@@ -27,12 +35,13 @@ const CheckoutCard = ({ product, promptRemove }) => {
                             <p className="card-text"> {product.tagline} </p>
                             <p className="card-text"> {product.description} </p>
                             <p className="card-text"> Price: {product.price}$ </p>
-                            {/* <div className="row">
+                            <p className="card-text"> {product.totalQuantity} in stock </p>
+                            <div className="row">
                                 <div className="col-sm-6 col-lg-6 col-md-6">
-                                    <input type="number" id="typeNumber" class="form-control" />
-                                    <label className="form-label" for="typeNumber"> Quantity </label>
+                                    <input max={product.totalQuantity} min={1} type="number" id="typeNumber" class="form-control" value={quantity} onChange={changeHandler}/>
+                                    {/* <label className="form-label" for="typeNumber"> Quantity </label> */}
                                 </div>
-                            </div> */}
+                            </div>
                             <a href="#!" className="btn btn-primary" onClick={()=>promptRemove(product.id)}>Remove from Cart</a>
                         </div>
                     </div>

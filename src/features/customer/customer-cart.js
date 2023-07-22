@@ -1,29 +1,31 @@
 import CheckoutCard from "./components/CheckoutCard";
 import RemoveProductModal from "./components/RemoveProductModal";
+import CheckoutModal from "./components/CheckoutModal";
 import { useState } from "react";
 import axios from "axios";
 
-const CustomerCart = ({ cartList, removeProduct }) => {
-    const [basicModal, setBasicModal] = useState(false);
+const CustomerCart = ({ cartList, setCartList, removeProduct, updateProductQuantity }) => {
+    const [removeModal, setRemoveModal] = useState(false);
+    const [checkoutModal, setCheckoutModal] = useState(false);
     const [removedProduct, setRemovedProduct] = useState('');
     const [removedProductId, setRemovedProductId] = useState();
     const [discount, setDiscount] = useState(0);
     const [discountCode, setDiscountCode] = useState('');
     const findTotal = () => {
         let total = cartList.reduce(
-            (p1, p2) => p1 + p2.price, 0
+            (p1, p2) => p1 + p2.price * p2.quantity, 0
         )
         return ((total + 10) * (100-discount) / 100).toFixed(2);
     }
 
     const closeAndRemoveFromCart = () => {
-        setBasicModal(false);
+        setRemoveModal(false);
         removeProduct(removedProductId);
     }
     const promptRemove = (id) => {
         setRemovedProduct(cartList.filter(product => product.id === id)[0].title);
         setRemovedProductId(id);
-        setBasicModal(true);
+        setRemoveModal(true);
     }
 
     const applyDiscount = async()=> {
@@ -36,13 +38,30 @@ const CustomerCart = ({ cartList, removeProduct }) => {
         setDiscountCode(e.target.value)
     }
 
+    const confirmOrder = async() => {
+        // const orders = cartList.map((product, index)=> {
+        //     return {
+        //         "id": product.id,
+        //         "quantity": product.quantity
+        //     }
+        // });
+        // const response = await axios.post('http://localhost:8181/product/confirm-order', orders);
+        // setCartList([]);
+    }
+
     return (
         <div>
             <RemoveProductModal
-                basicModal={basicModal}
-                setBasicModal={setBasicModal}
+                basicModal={removeModal}
+                setBasicModal={setRemoveModal}
                 closeAndRemoveFromCart={closeAndRemoveFromCart}
                 removedProduct={removedProduct}
+
+            />
+            <CheckoutModal
+                basicModal={checkoutModal}
+                setBasicModal={setCheckoutModal}
+                confirmOrder={confirmOrder}
 
             />
             <div className="row d-flex justify-content-center">
@@ -52,6 +71,7 @@ const CustomerCart = ({ cartList, removeProduct }) => {
                             <CheckoutCard
                                 product={product}
                                 promptRemove={promptRemove}
+                                updateProductQuantity={updateProductQuantity}
 
                             />
                         )
@@ -73,7 +93,7 @@ const CustomerCart = ({ cartList, removeProduct }) => {
                         <a href="#!" className="btn btn-tertiary" onClick={applyDiscount}> Apply </a> 
                         </div>
                         <div>
-                            <a href="#!" className="btn btn-primary"> Checkout </a>
+                            <a href="#!" className="btn btn-primary" onClick={()=>setCheckoutModal(true)}> Checkout </a>
                         </div>
                     </div>
                 ) : ''}

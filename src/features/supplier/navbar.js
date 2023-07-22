@@ -16,7 +16,18 @@ function Navbar() {
   return (
     <MDBNavbar expand="lg" light bgColor="light">
       <MDBContainer fluid>
-        <MDBNavbarBrand href="#">Supplier Dashboard</MDBNavbarBrand>
+        <MDBNavbarBrand href="#">
+          <img
+            src={imslogo}
+            height='50'
+            width='70'
+            alt=''
+            loading='lazy'
+          /> &nbsp;
+          <div className="flex flex-wrap gap-2" style={{ fontFamily: "bold" }}>
+            Inventory Management System - Supplier Portal
+          </div>
+        </MDBNavbarBrand>
 
         <MDBNavbarToggler
           aria-controls="navbarSupportedContent"

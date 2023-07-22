@@ -39,14 +39,18 @@ const CustomerCart = ({ cartList, setCartList, removeProduct, updateProductQuant
     }
 
     const confirmOrder = async() => {
-        // const orders = cartList.map((product, index)=> {
-        //     return {
-        //         "id": product.id,
-        //         "quantity": product.quantity
-        //     }
-        // });
-        // const response = await axios.post('http://localhost:8181/product/confirm-order', orders);
-        // setCartList([]);
+        let token = localStorage.getItem("token");
+        const orders = cartList.map((product, index)=> {
+            return {
+                "id": product.id,
+                "quantity": product.quantity
+            }
+        });
+        const response = await axios.post('http://localhost:8181/product/confirm-order', orders, {headers:{
+            'Authorization' : 'Basic ' + token
+        }});
+        setCartList([]);
+        setCheckoutModal(false);
     }
 
     return (

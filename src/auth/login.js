@@ -3,19 +3,22 @@ import { useState } from "react";
 import { useNavigate } from 'react-router'
 import MainNavbar from "./navbar";
 
+
 function Login() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);    // show/hide password
+
 
     const newUser = () => { // If it is new user, and hasn't signed up yet
         navigate("/customersignup");
     }
 
     const doLogin = () => {
-        if(username === 'admin@incedoinc.com' && password === 'admin@123') {
+        if (username === 'admin@incedoinc.com' && password === 'admin@123') {
             localStorage.setItem('username', username);
             navigate('/admin');
             return;
@@ -72,11 +75,19 @@ function Login() {
 
     return (
         <div>
-            <MainNavbar/>
-            <br/><br/>
+            <MainNavbar />
+            <br /><br />
+            <div className="jumbotron text-center">
+                <div className="container">
+                    <h1 className="display-4" style={{fontFamily: 'bold', fontSize: '40px'}}>Welcome to IMS</h1>
+                    <p className="lead" style={{fontFamily: 'bold', fontSize: '20px'}}>Please enter your credentials below to login, or sign up as a new user</p>
+                    <hr className="my-4" />
+                </div>
+            </div>
+
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <div className="card border-primary rounded shadow">
+                    <div className="card border-primary rounded shadow mb-10">
                         <div className="card-header bg-primary text-white rounded-top">Login</div>
                         <div className="card-body">
                             {errMsg && <div className="alert alert-danger">{errMsg}</div>}
@@ -92,7 +103,7 @@ function Login() {
                                         }}
                                     />
                                 </div>
-                                <div className="mb-3">
+                                {/* <div className="mb-3">
                                     <label className="form-label">Password:</label>
                                     <input type="password"
                                         className="form-control border-primary"
@@ -102,7 +113,25 @@ function Login() {
                                             setErrMsg('')
                                         }}
                                     />
+                                </div> */}
+                                <div className="mb-3">
+                                    <label className="form-label">Password:</label>
+                                    <div style={{ display: "flex" }}>
+                                        <input type={showPassword ? "text" : "password"}
+                                            className="form-control border-primary"
+                                            value={password}
+                                            onChange={(e) => {
+                                                setPassword(e.target.value)
+                                                setErrMsg('')
+                                            }}
+                                        />
+                                        &nbsp;
+                                        <button type="button" style={{ borderRadius: '5px' }} onClick={() => setShowPassword(!showPassword)}>
+                                            {showPassword ? 'Hide' : 'Show'}
+                                        </button>
+                                    </div>
                                 </div>
+
                                 <button type="button" className="btn btn-primary mt-3" onClick={doLogin}>Login</button>
                                 &nbsp;&nbsp;
                                 <button type="button" className="btn btn-primary mt-3" onClick={newUser}>Sign Up</button>
@@ -113,7 +142,7 @@ function Login() {
             </div>
         </div>
     )
-    
+
 
 }
 

@@ -75,6 +75,7 @@ class CustomerSignUp extends Component {
                         <div className="card border-primary rounded shadow">
                             <div className="card-header bg-primary text-white rounded-top">Customer Sign Up</div>
                             <div className="card-body">
+                            {this.state.errorMsg && <div className="alert alert-danger">{this.state.errorMsg}</div>}
                                 <p className="card-text">Enter your details below to sign up</p>
                                 
                                 <form>
@@ -186,6 +187,9 @@ class CustomerSignUp extends Component {
     addCustomer=async ()=>{
 
         if (this.state.passwordError) {
+            this.setState({
+                errorMsg:"Password does not meet the requirements"
+            })
             console.log("Password does not meet the requirements.");
             return;
         }

@@ -23,7 +23,7 @@ const RemoveProductModal = ({basicModal, setBasicModal, removedProduct, closeAnd
                     Are you sure you want to remove {removedProduct} from your cart?
                 </MDBModalBody>
 
-                <MDBModalFooter>
+                <MDBModalFooter> 
                 <MDBBtn color='secondary' onClick={toggleShow}>
                     Cancel
                 </MDBBtn>

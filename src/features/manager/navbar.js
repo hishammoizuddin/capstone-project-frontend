@@ -10,6 +10,7 @@ import {
 } from "mdb-react-ui-kit";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import imslogo from '../../images/logo-color.png';
 
 function Navbar() {
   const [showBasic, setShowBasic] = useState(false);

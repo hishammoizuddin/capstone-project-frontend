@@ -1,4 +1,5 @@
 import axios from 'axios';
+import imslogo from '../../images/logo-color.png';
 import {
   MDBContainer,
   MDBNavbar,

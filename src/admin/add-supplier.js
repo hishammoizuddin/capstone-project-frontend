@@ -6,11 +6,11 @@ import { useLocation } from 'react-router-dom';
 import MainNavbar from "./navbar";
 
 export function withRouter(Component) {
-  return function WrappedComponent(props) {
-    const navigate = useNavigate();
-    const location = useLocation();
-    return <Component {...props} navigate={navigate} location={location} />;
-  };
+    return function WrappedComponent(props) {
+        const navigate = useNavigate();
+        const location = useLocation();
+        return <Component {...props} navigate={navigate} location={location} />;
+    };
 }
 
 
@@ -24,7 +24,8 @@ class SupplierSignUp extends Component {
             users: [],
             addresses: [],
             errorMsg: '',
-            passwordError:'',
+            passwordError: '',
+            showPassword: false,
 
             supplier: {
                 name: '',
@@ -52,15 +53,15 @@ class SupplierSignUp extends Component {
         const passwordRegEx = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
         return passwordRegEx.test(String(password));
     }
-    
+
 
 
 
     render() {
 
-        return(
+        return (
             <div>
-                <MainNavbar/>
+                <MainNavbar />
                 {this.viewSupplierSignUp()}
             </div>
         );
@@ -75,8 +76,10 @@ class SupplierSignUp extends Component {
                         <div className="card border-primary rounded shadow">
                             <div className="card-header bg-primary text-white rounded-top">Add a Supplier - Sign Up</div>
                             <div className="card-body">
+                            {this.state.errorMsg && <div className="alert alert-danger">{this.state.errorMsg}</div>}
+
                                 <p className="card-text">Complete the details below to register a Supplier in the database</p>
-                                
+
                                 <form>
                                     <div className="mb-3">
                                         <label className="form-label">Username:</label>
@@ -87,18 +90,27 @@ class SupplierSignUp extends Component {
                                             onChange={this.changeHandler}
                                         />
                                     </div>
-    
+
                                     <div className="mb-3">
                                         <label className="form-label">Password:</label>
-                                        <input type="password"
-                                            className="form-control border-primary"
-                                            name="password"
-                                            value={this.state.user.password}
-                                            onChange={this.changeHandler}
-                                        />
+                                        <div style={{ display: "flex" }}>
+                                            <input
+                                                type={this.state.showPassword ? "text" : "password"}
+                                                className="form-control border-primary"
+                                                name="password"
+                                                value={this.state.user.password}
+                                                onChange={this.changeHandler}
+                                            />
+                                            &nbsp;
+                                            <button
+                                                button type="button" style={{ borderRadius: '5px' }}
+                                                onClick={() => this.setState({ showPassword: !this.state.showPassword })}>
+                                                {this.state.showPassword ? "Hide" : "Show"}
+                                            </button>
+                                        </div>
                                         <small className="text-danger">{this.state.passwordError}</small>
                                     </div>
-    
+
                                     <div className="mb-3">
                                         <label className="form-label">Name:</label>
                                         <input type="text"
@@ -108,7 +120,7 @@ class SupplierSignUp extends Component {
                                             onChange={this.changeHandler}
                                         />
                                     </div>
-    
+
                                     <div className="mb-3">
                                         <label className="form-label">House Number:</label>
                                         <input type="text"
@@ -118,7 +130,7 @@ class SupplierSignUp extends Component {
                                             onChange={this.changeHandler}
                                         />
                                     </div>
-    
+
                                     <div className="mb-3">
                                         <label className="form-label">Street:</label>
                                         <input type="text"
@@ -128,7 +140,7 @@ class SupplierSignUp extends Component {
                                             onChange={this.changeHandler}
                                         />
                                     </div>
-    
+
                                     <div className="mb-3">
                                         <label className="form-label">City:</label>
                                         <input type="text"
@@ -138,7 +150,7 @@ class SupplierSignUp extends Component {
                                             onChange={this.changeHandler}
                                         />
                                     </div>
-    
+
                                     <div className="mb-3">
                                         <label className="form-label">Zip Code:</label>
                                         <input type="text"
@@ -151,7 +163,7 @@ class SupplierSignUp extends Component {
 
                                     <button type="button" className="btn btn-primary mt-3" onClick={
                                         this.addSupplier
-                                        }>Add Supplier</button>
+                                    }>Add Supplier</button>
                                 </form>
                             </div>
                         </div>
@@ -160,44 +172,47 @@ class SupplierSignUp extends Component {
             </div>
         );
     }
-    
 
-    addSupplier=async ()=>{
+
+    addSupplier = async () => {
         if (this.state.passwordError) {
+            this.setState({
+                errorMsg: "Password does not meet the requirements"
+            })
             console.log("Password does not meet the requirements.");
             return;
         }
 
         try {
-          const response = await axios.post(
-            "http://localhost:8181/executive/supplier/add",
-            {
-                name: this.state.supplier.name,
-                user:{
-                    username: this.state.user.username,
-                    password: this.state.user.password,
-                },
-                address:{
-                    hno: this.state.address.hno,
-                    street: this.state.address.street,
-                    city: this.state.address.city,
-                    zipcode: this.state.address.zipcode,
+            const response = await axios.post(
+                "http://localhost:8181/executive/supplier/add",
+                {
+                    name: this.state.supplier.name,
+                    user: {
+                        username: this.state.user.username,
+                        password: this.state.user.password,
+                    },
+                    address: {
+                        hno: this.state.address.hno,
+                        street: this.state.address.street,
+                        city: this.state.address.city,
+                        zipcode: this.state.address.zipcode,
+                    }
                 }
-            }
-          );
-          let tempArray = this.state.suppliers;
-          tempArray.push(response.data);
-          localStorage.setItem('username', this.state.user.username)
-          this.setState({
-            suppliers : tempArray
-          }, () => this.props.navigate('/supplier'))
+            );
+            let tempArray = this.state.suppliers;
+            tempArray.push(response.data);
+            localStorage.setItem('username', this.state.user.username)
+            this.setState({
+                suppliers: tempArray
+            }, () => this.props.navigate('/supplier'))
         } catch (err) {
-          console.log(err.msg);
+            console.log(err.msg);
         }
 
     }
 
- 
+
     changeHandler = (e) => {
         if (e.target.name === "password") {
             if (!this.validatePassword(e.target.value)) {
@@ -212,11 +227,11 @@ class SupplierSignUp extends Component {
                 ...this.state.supplier,
                 [e.target.name]: e.target.value
             },
-            user:{
+            user: {
                 ...this.state.user,
                 [e.target.name]: e.target.value
             },
-            address:{
+            address: {
                 ...this.state.address,
                 [e.target.name]: e.target.value
             }

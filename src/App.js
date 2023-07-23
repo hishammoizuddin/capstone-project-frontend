@@ -7,6 +7,7 @@ import Admin from './admin/admin-dashboard';
 import ExecutiveDashboard from './features/executive/executive-dashboard';
 import ManagerDashboard from './features/manager/manager-dashboard';
 import CustomerDashboard from './features/customer/customer-dashboard';
+import CustomerSignup from './auth/customer-signup';
  
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/' element={<Login />}></Route>
         <Route path='/admin' element={<Admin />}></Route>
         <Route path='/supplier' element={<SupplierDashboard />}></Route>
+        <Route path='/customersignup' element={<CustomerSignup />}></Route>
         <Route path='/executive' element={<ExecutiveDashboard />}></Route>
         <Route path='/manager' element={<ManagerDashboard />}></Route>
         <Route path='/logout' element={<Logout />}></Route>

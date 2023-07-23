@@ -53,6 +53,9 @@ const Navbar = ({ filter, viewCart, viewOrder, searchTitle, cartSize }) => {
                         alt=''
                         loading='lazy'
                     /> &nbsp;
+                    <div className="flex flex-wrap gap-2" style={{ fontFamily: "bold" }}>
+                        Inventory Management System - Customer Portal
+                    </div>
                 </MDBNavbarBrand>
 
                 <MDBNavbarToggler
@@ -65,7 +68,7 @@ const Navbar = ({ filter, viewCart, viewOrder, searchTitle, cartSize }) => {
                 </MDBNavbarToggler>
 
                 <MDBCollapse navbar show={showBasic}>
-                    <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
+                    <MDBNavbarNav className='mr-auto mb-2 mb-lg-0 pt-1'>
                         <MDBNavbarItem>
                             <MDBNavbarLink href='#' onClick={() => { filter(-1) }}>
                                 All
@@ -80,19 +83,29 @@ const Navbar = ({ filter, viewCart, viewOrder, searchTitle, cartSize }) => {
                                 )
                             })
                         }
-                        <MDBNavbarItem>
+                        {/* <MDBNavbarItem className="me-5">
                             <MDBNavbarLink href='#' onClick={viewCart}>
                                 <i class="fas fa-cart-shopping"></i>
                                 <span> ({cartSize})</span>
                             </MDBNavbarLink>
-                        </MDBNavbarItem>
-                        <MDBNavbarItem class="navbar-right">
+                        </MDBNavbarItem> */}
+                        <MDBNavbarItem>
                             <MDBNavbarLink href='#' onClick={viewOrder}>
-                                <span> View Past Orders </span>
+                                <span> Past Orders </span>
                             </MDBNavbarLink>
                         </MDBNavbarItem>
 
                     </MDBNavbarNav>
+
+
+                    <div style={{width: "70px"}}>
+                        {/* <!-- Icon --> */}
+                        <a href='#' onClick={viewCart}>
+                        <i class="fas fa-cart-shopping"></i>
+                            <span> ({cartSize})</span>
+                            </a>
+                    </div>
+
 
                     <form className='d-flex input-group w-auto'>
                         <input type='search' className='form-control' placeholder='products,...' aria-label='Search' value={title}

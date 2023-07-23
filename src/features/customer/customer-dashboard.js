@@ -134,7 +134,6 @@ function CustomerDashboard() {
                         cartSize={cartList.length}
                     />
                 </div>
-                <h1>Customer Dashboard</h1>
                 {isCart ? (
                     <CustomerCart
                     cartList={cartList}
@@ -155,6 +154,7 @@ function CustomerDashboard() {
                     ) : (
                     <div className="row d-flex justify-content-center">
                         <div className="col-sm-10 col-lg-10 col-md-10">
+                            <h1 className="mb-4">Product Dashboard</h1>
                             <div className="row d-flex">
                                 {
                                     productList.map((product, index) => {

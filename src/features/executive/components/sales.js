@@ -31,8 +31,7 @@ function Sales(){
                 <input type="date" className="form-control" onChange={(e)=>setFromDate(e.target.value)}></input>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <label>Select To Date</label>
-                <input type="date" className="form-control" onChange={(e)=>setToDate(e.target.value)}></input>
-                &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="date" className="form-control mb-2" onChange={(e)=>setToDate(e.target.value)}></input>
                 <button className="btn btn-info" onClick={()=>fetchSalesEntry()}>Fetch Sales Records</button>
                 </div>
              <MDBTable align="middle" className="mt-4">

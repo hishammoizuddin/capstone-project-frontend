@@ -55,7 +55,8 @@ const CustomerCart = ({ cartList, setCartList, removeProduct, updateProductQuant
     }
 
     return (
-        <div>
+        <div className="row d-flex justify-content-center">
+            <h1 className="col-sm-8 col-lg-8 col-md-8 mb-4"> Your Cart </h1>
             <RemoveProductModal
                 basicModal={removeModal}
                 setBasicModal={setRemoveModal}

@@ -11,7 +11,7 @@ import {
 } from 'mdb-react-ui-kit';
 import axios from 'axios';
 
-const ReviewModal = ({ basicModal, setBasicModal, reviews, setReviews, product }) => {
+const ReviewModal = ({ basicModal, setBasicModal, reviews, setReviews, product, refresh, setRefresh, refreshRating, setRefreshRating}) => {
     const toggleShow = () => {
         setBasicModal(!basicModal);
     }
@@ -29,6 +29,8 @@ const ReviewModal = ({ basicModal, setBasicModal, reviews, setReviews, product }
             );
             let new_reviews = reviews.concat(response.data);
             setReviews(new_reviews);
+            setRefresh(!refresh);
+            setRefreshRating(!refreshRating);
             toggleShow();
         } catch (err) {
             console.log(err.msg);

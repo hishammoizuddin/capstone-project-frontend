@@ -4,7 +4,7 @@ import CheckoutModal from "./components/CheckoutModal";
 import { useState } from "react";
 import axios from "axios";
 
-const CustomerCart = ({ cartList, setCartList, removeProduct, updateProductQuantity }) => {
+const CustomerCart = ({ cartList, setCartList, removeProduct, updateProductQuantity, setRefresh, refresh}) => {
     const [removeModal, setRemoveModal] = useState(false);
     const [checkoutModal, setCheckoutModal] = useState(false);
     const [removedProduct, setRemovedProduct] = useState('');
@@ -51,6 +51,7 @@ const CustomerCart = ({ cartList, setCartList, removeProduct, updateProductQuant
         }});
         setCartList([]);
         setCheckoutModal(false);
+        setRefresh(!refresh);
     }
 
     return (

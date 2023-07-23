@@ -14,7 +14,7 @@ import {
 } from 'mdb-react-ui-kit';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ filter, viewCart, searchTitle, cartSize }) => {
+const Navbar = ({ filter, viewCart, viewOrder, searchTitle, cartSize }) => {
 
     const [showBasic, setShowBasic] = useState(false);
     const [title, setSearchTitle] = useState('');
@@ -75,6 +75,11 @@ const Navbar = ({ filter, viewCart, searchTitle, cartSize }) => {
                             <MDBNavbarLink href='#' onClick={viewCart}>
                                 <i class="fas fa-cart-shopping"></i>
                                 <span> ({cartSize})</span>
+                            </MDBNavbarLink>
+                        </MDBNavbarItem>
+                        <MDBNavbarItem class="navbar-right">
+                            <MDBNavbarLink href='#' onClick={viewOrder}>
+                                <span> View Past Orders </span>
                             </MDBNavbarLink>
                         </MDBNavbarItem>
 

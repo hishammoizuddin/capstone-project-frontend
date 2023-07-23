@@ -8,6 +8,7 @@ import axios from 'axios';
 import CustomerCart from "./customer-cart";
 import AddProductModal from "./components/AddProductModal";
 import Review from "./components/Review";
+import CustomerOrder from "./components/CustomerOrder";
 
 function CustomerDashboard() {
     const [productList, setProductList] = useState([]);
@@ -16,8 +17,10 @@ function CustomerDashboard() {
     const [reviewedProduct, setReviewedProduct] = useState();
     const [isCart, setIsCart] = useState(false);
     const [isReview, setIsReview] = useState(false);
+    const [isViewOrder, setIsViewOrder] = useState(false);
     const [basicModal, setBasicModal] = useState(false);
     const [addedProduct, setAddedProduct] = useState('');
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -42,10 +45,11 @@ function CustomerDashboard() {
             }
         }
         fetchData();
-    }, [])
+    }, [refresh])
     const filter = (id) => {
         setIsCart(false);
         setIsReview(false);
+        setIsViewOrder(false);
         if (id === -1) {
             // get all products
             setProductList(allProducts);
@@ -104,6 +108,12 @@ function CustomerDashboard() {
     const viewReview = (product) => {
         setReviewedProduct(product);
         setIsReview(true);
+        setIsCart(false);
+    }
+    const viewOrder = ()=>{
+        setIsReview(false);
+        setIsCart(false);
+        setIsViewOrder(true);
     }
     return (
         <div>
@@ -119,6 +129,7 @@ function CustomerDashboard() {
                     <Navbar
                         filter={filter}
                         viewCart={viewCart}
+                        viewOrder={viewOrder}
                         searchTitle={searchTitle}
                         cartSize={cartList.length}
                     />
@@ -130,12 +141,18 @@ function CustomerDashboard() {
                     setCartList={setCartList}
                     removeProduct={removeProduct}
                     updateProductQuantity={updateProductQuantity}
+                    setRefresh={setRefresh}
+                    refresh={refresh}
                 />
                 ) : isReview ? (
                     <Review
                         product={reviewedProduct}
+                        setRefresh={setRefresh}
+                        refresh={refresh}
                     />
-                ) : (
+                ) : isViewOrder ? (
+                    <CustomerOrder/>
+                    ) : (
                     <div className="row d-flex justify-content-center">
                         <div className="col-sm-10 col-lg-10 col-md-10">
                             <div className="row d-flex">

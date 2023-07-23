@@ -7,6 +7,7 @@ import Admin from './admin/admin-dashboard';
 import ExecutiveDashboard from './features/executive/executive-dashboard';
 import ManagerDashboard from './features/manager/manager-dashboard';
 import CustomerDashboard from './features/customer/customer-dashboard';
+import CustomerOrder from './features/customer/components/CustomerOrder';
  
 function App() {
   return (

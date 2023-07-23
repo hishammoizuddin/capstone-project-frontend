@@ -2,7 +2,7 @@ import { Rating } from 'primereact/rating';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ReviewModal from './ReviewModal';
-const Review = ({ product }) => {
+const Review = ({ product, refresh, setRefresh }) => {
     const selectImage = (cid) => {
         // Just placeholders for images, if time permits will change this to maybe using S3 bucket
         if (cid === 1) {
@@ -15,18 +15,22 @@ const Review = ({ product }) => {
     }
     const [reviews, setReviews] = useState([]);
     const [basicModal, setBasicModal] = useState(false);
+    const [refreshRating, setRefreshRating] = useState(false);
+    const [currentRating, setCurrentRating] = useState(0);
     useEffect(() => {
         async function fetchData() {
             try {
                 const response = await axios.get('http://localhost:8181/review/all/' + product.id);
-                setReviews(response.data)
+                setReviews(response.data);
+                const rating = (response.data.reduce((a,b) => a + b.rating, 0))/(response.data.length);
+                setCurrentRating(rating.toFixed(2));
             }
             catch (err) {
                 console.log(err);
             }
         }
         fetchData();
-    }, [])
+    }, [refreshRating])
 
     return (
         <div className="row d-flex justify-content-center">
@@ -36,6 +40,10 @@ const Review = ({ product }) => {
                 reviews={reviews}
                 setReviews={setReviews}
                 product={product}
+                setRefresh={setRefresh}
+                refresh={refresh}
+                setRefreshRating={setRefreshRating}
+                refreshRating={refreshRating}
             />
             <div className="col-sm-6 col-lg-8 col-md-8 mb-4">
                 <div className="card">
@@ -59,7 +67,7 @@ const Review = ({ product }) => {
                 </div>
             </div>
             <div className="col-sm-12 col-lg-12 col-md-12 mb-4 d-flex justify-content-center">
-                < Rating readOnly value={product.rating} cancel={false}/>
+                < Rating readOnly value={currentRating} cancel={false}/>
             </div>
             <div className="mb-6 col-sm-12 col-lg-12 col-md-12 mb-4 d-flex justify-content-center">
                 <a href="#!" className="btn btn-primary" onClick={()=>{setBasicModal(true)}}> Add a Review </a>

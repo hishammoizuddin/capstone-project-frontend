@@ -10,14 +10,22 @@ import {
 } from 'mdb-react-ui-kit';
 import axios from 'axios';
 
-const ReturnModal = ({basicModal, setBasicModal, productCustomer}) => {
+const ReturnModal = ({basicModal, setBasicModal, productCustomer, customerOrders, setCustomerOrders}) => {
     const toggleShow = () => setBasicModal(!basicModal);
     const returnDefectProduct = async() => {
-        await axios.post("localhost:8181/product/customer/return-defect-order/" + productCustomer.id);
+        await axios.post("http://localhost:8181/product/customer/return-defect-order/" + productCustomer.id);
+        const temp_arr = [...customerOrders];
+        const new_pc = temp_arr.filter(pc => pc.id === productCustomer.id)[0];
+        new_pc.returned = true;
+        setCustomerOrders(temp_arr);
         toggleShow();
     }
     const returnProduct = async() => {
-        await axios.post("localhost:8181/product/customer/return-order/" + productCustomer.id);
+        await axios.post("http://localhost:8181/product/customer/return-order/" + productCustomer.id);
+        const temp_arr = [...customerOrders];
+        const new_pc = temp_arr.filter(pc => pc.id === productCustomer.id)[0];
+        new_pc.returned = true;
+        setCustomerOrders(temp_arr);
         toggleShow();
     }
 
@@ -29,10 +37,11 @@ const ReturnModal = ({basicModal, setBasicModal, productCustomer}) => {
                 <MDBModalHeader className='bg-primary text-white'>
                 <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn>
                 </MDBModalHeader>
+                {productCustomer != null ? (
                 <MDBModalBody>
                     Are you sure you want to return {productCustomer.product.title}? Please select a reason to return.
-                </MDBModalBody>
-
+                </MDBModalBody>) : ''
+                }
                 <MDBModalFooter>
                 <MDBBtn color='secondary' onClick={toggleShow}>
                     Cancel

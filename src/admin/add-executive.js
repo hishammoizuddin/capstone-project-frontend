@@ -159,7 +159,12 @@ class ExecutiveSignUp extends Component {
             );
             let tempArray = this.state.executives;
             tempArray.push(response.data);
-            localStorage.setItem('username', this.state.user.username)
+            let username = this.state.user.username;
+            let password = this.state.user.password;
+            let token = window.btoa(username + ':' + password);
+            localStorage.setItem('token', token);
+            localStorage.setItem('username', username);
+            localStorage.setItem('isLoggedIn', true);
             this.setState({
                 executives: tempArray
             }, () => this.props.navigate('/executive'))

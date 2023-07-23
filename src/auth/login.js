@@ -38,7 +38,7 @@ function Login() {
                 // Save token and username in local storage
                 localStorage.setItem('token', token);
                 localStorage.setItem('username', username);
-                localStorage.setItem('isLoggedIn', false);
+                localStorage.setItem('isLoggedIn', true);
                 processRole(user.role);
             }
             catch (err) {

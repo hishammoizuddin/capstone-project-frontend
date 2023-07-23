@@ -162,7 +162,12 @@ class ManagerSignUp extends Component {
             );
             let tempArray = this.state.managers;
             tempArray.push(response.data);
-            localStorage.setItem('username', this.state.user.username)
+            let username = this.state.user.username;
+            let password = this.state.user.password;
+            let token = window.btoa(username + ':' + password);
+            localStorage.setItem('token', token);
+            localStorage.setItem('username', username);
+            localStorage.setItem('isLoggedIn', true);
             this.setState({
                 managers: tempArray
             }, () => this.props.navigate('/manager'))

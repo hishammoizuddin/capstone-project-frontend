@@ -28,7 +28,7 @@ function CustomerDashboard() {
                 const response = await axios.get('http://localhost:8181/product/all');
                 const products = response.data;
                 await Promise.all(
-                    products.map(async(product) => {
+                    products.map(async (product) => {
                         const avgRating = await axios.get('http://localhost:8181/review/rating/' + product.id);
                         const count = await axios.get('http://localhost:8181/review/count/' + product.id);
                         product.rating = avgRating.data.toFixed(2);
@@ -85,7 +85,7 @@ function CustomerDashboard() {
         console.log(product);
         setCartList(newCart);
     }
-    
+
 
     const searchTitle = async (title) => {
         setIsCart(false);
@@ -110,7 +110,7 @@ function CustomerDashboard() {
         setIsReview(true);
         setIsCart(false);
     }
-    const viewOrder = ()=>{
+    const viewOrder = () => {
         setIsReview(false);
         setIsCart(false);
         setIsViewOrder(true);
@@ -136,13 +136,13 @@ function CustomerDashboard() {
                 </div>
                 {isCart ? (
                     <CustomerCart
-                    cartList={cartList}
-                    setCartList={setCartList}
-                    removeProduct={removeProduct}
-                    updateProductQuantity={updateProductQuantity}
-                    setRefresh={setRefresh}
-                    refresh={refresh}
-                />
+                        cartList={cartList}
+                        setCartList={setCartList}
+                        removeProduct={removeProduct}
+                        updateProductQuantity={updateProductQuantity}
+                        setRefresh={setRefresh}
+                        refresh={refresh}
+                    />
                 ) : isReview ? (
                     <Review
                         product={reviewedProduct}
@@ -150,8 +150,11 @@ function CustomerDashboard() {
                         refresh={refresh}
                     />
                 ) : isViewOrder ? (
-                    <CustomerOrder/>
-                    ) : (
+                    <CustomerOrder
+                        refresh={refresh}
+                        setRefresh={setRefresh}
+                    />
+                ) : (
                     <div className="row d-flex justify-content-center">
                         <div className="col-sm-10 col-lg-10 col-md-10">
                             <h1 className="mb-4">Product Dashboard</h1>

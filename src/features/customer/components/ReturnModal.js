@@ -10,7 +10,7 @@ import {
 } from 'mdb-react-ui-kit';
 import axios from 'axios';
 
-const ReturnModal = ({basicModal, setBasicModal, productCustomer, customerOrders, setCustomerOrders}) => {
+const ReturnModal = ({basicModal, setBasicModal, productCustomer, customerOrders, setCustomerOrders, refresh, setRefresh}) => {
     const toggleShow = () => setBasicModal(!basicModal);
     const returnDefectProduct = async() => {
         await axios.post("http://localhost:8181/product/customer/return-defect-order/" + productCustomer.id);
@@ -18,6 +18,7 @@ const ReturnModal = ({basicModal, setBasicModal, productCustomer, customerOrders
         const new_pc = temp_arr.filter(pc => pc.id === productCustomer.id)[0];
         new_pc.returned = true;
         setCustomerOrders(temp_arr);
+        setRefresh(!refresh);
         toggleShow();
     }
     const returnProduct = async() => {
@@ -26,6 +27,7 @@ const ReturnModal = ({basicModal, setBasicModal, productCustomer, customerOrders
         const new_pc = temp_arr.filter(pc => pc.id === productCustomer.id)[0];
         new_pc.returned = true;
         setCustomerOrders(temp_arr);
+        setRefresh(!refresh);
         toggleShow();
     }
 

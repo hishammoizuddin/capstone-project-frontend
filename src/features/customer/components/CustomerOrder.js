@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ReturnModal from "./ReturnModal";
-const CustomerOrder = () => {
+const CustomerOrder = ({refresh, setRefresh}) => {
     const [customerOrders, setCustomerOrders] = useState([]);
     const [basicModal, setBasicModal] = useState(false);
     const [currentPc, setCurrentPc] = useState();
@@ -46,6 +46,8 @@ const CustomerOrder = () => {
                 productCustomer={currentPc}
                 customerOrders={customerOrders}
                 setCustomerOrders={setCustomerOrders}
+                refresh={refresh}
+                setRefresh={setRefresh}
             />
             <h1 className="col-sm-6 col-lg-8 col-md-8 mb-4">Your Orders</h1>
             {

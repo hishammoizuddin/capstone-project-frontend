@@ -39,7 +39,7 @@ const CustomerOrder = () => {
         setBasicModal(true);
     }
     return (
-        <div>
+        <div className="row d-flex justify-content-center">
             <ReturnModal
                 basicModal={basicModal}
                 setBasicModal={setBasicModal}
@@ -47,6 +47,7 @@ const CustomerOrder = () => {
                 customerOrders={customerOrders}
                 setCustomerOrders={setCustomerOrders}
             />
+            <h1 className="col-sm-6 col-lg-8 col-md-8 mb-4">Your Orders</h1>
             {
                 customerOrders.map((co, index) => {
                     return (

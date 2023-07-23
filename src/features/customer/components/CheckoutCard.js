@@ -23,7 +23,7 @@ const CheckoutCard = ({ product, promptRemove, updateProductQuantity }) => {
                 <div className="row d-flex justify-content-center">
                     <div className="col-sm-6 col-lg-6 col-md-6 d-flex justify-content-center">
                         <div className="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                            <img alt='' src={selectImage(product.category.id)} className="img-fluid" style={{height: "160px"}}/>
+                            <img alt='' src={selectImage(product.category.id)} className="img-fluid" style={{ height: "160px" }} />
                             <a href="#!">
                                 <div className="mask" style={{ backgroundColor: "rgba(251, 251, 251, 0.15", }}></div>
                             </a>
@@ -34,15 +34,15 @@ const CheckoutCard = ({ product, promptRemove, updateProductQuantity }) => {
                             <h5 className="card-title"> {product.title} </h5>
                             <p className="card-text"> {product.tagline} </p>
                             <p className="card-text"> {product.description} </p>
-                            <p className="card-text"> Price: {product.price}$ </p>
-                            <p className="card-text"> {product.totalQuantity} in stock </p>
+                            <p className="card-text fw-bold"> ${product.price} </p>
+                            <p className="card-text text-warning"> {product.totalQuantity} in stock </p>
                             <div className="row">
                                 <div className="col-sm-6 col-lg-6 col-md-6">
-                                    <input max={product.totalQuantity} min={1} type="number" id="typeNumber" class="form-control" value={quantity} onChange={changeHandler}/>
+                                    <input max={product.totalQuantity} min={1} type="number" id="typeNumber" class="form-control mb-3" value={quantity} onChange={changeHandler} />
                                     {/* <label className="form-label" for="typeNumber"> Quantity </label> */}
                                 </div>
                             </div>
-                            <a href="#!" className="btn btn-primary" onClick={()=>promptRemove(product.id)}>Remove from Cart</a>
+                            <a href="#!" className="btn btn-primary" onClick={() => promptRemove(product.id)}>Remove from Cart</a>
                         </div>
                     </div>
                 </div>

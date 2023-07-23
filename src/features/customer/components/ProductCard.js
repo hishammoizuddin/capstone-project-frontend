@@ -28,8 +28,8 @@ const ProductCard = ({ product, addProduct, viewReview }) => {
                     <a style={{fontSize: "0.9rem"}} href="#!" onClick={()=>viewReview(product)}> {product.rating} from {product.count} reviews</a>
                     <p className="card-text" style={{ overflow: "hidden", overflowWrap: "break-word", textOverflow: "ellipsis", height: "30px" }}> {product.tagline} </p>
                     <p className="card-text"> {product.description} </p>
-                    <p className="card-text"> Price: {product.price}$ </p>
-                    <p className="card-text"> {product.totalQuantity} in stock </p>
+                    <p className="card-text fw-bold"> ${product.price} </p>
+                    <p className="card-text text-warning"> {product.totalQuantity} in stock </p>
                     <a href="#!" className="btn btn-primary" onClick={() => addProduct(product)}>Add to Cart</a>
                 </div>
             </div>

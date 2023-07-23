@@ -41,7 +41,7 @@ function ManagerHome(){
 
     const leftToolbarTemplate = () => {
         return (
-          <div className="flex flex-wrap gap-2" style={{fontFamily: "cursive", fontSize: '18px'}}>
+          <div className="flex flex-wrap gap-2" style={{ fontFamily: "bold", fontSize: '20px', color: '#004c8c' }}>
                  Welcome {localStorage.getItem('username').split("@")[0]},<br />
                  Email: {localStorage.getItem('username')}
              </div>
@@ -52,11 +52,11 @@ function ManagerHome(){
         return(
             <div> 
             <span className="p-input-icon-left " >
-                <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                <i className="pi pi-search" style={{ color: '#004c8c' }}  />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search" style={{ border: '2px solid #004c8c', backgroundColor: '#e6f2ff' }} />
                 &nbsp;&nbsp;&nbsp;
             </span>
-                     <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />;
+                     <Button label="Export as CSV" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} style={{ backgroundColor: '#004c8c', color: '#ffffff' }} />
                      </div>
 
         )
@@ -69,8 +69,8 @@ function ManagerHome(){
     };
 
     const header = (
-        <div className="flex flex-wrap gap-2   justify-content-between">
-            <h4 className="m-0">Orders delivered by suppliers(To be checked and RECEIVED)</h4>
+        <div className="flex flex-wrap gap-2 justify-content-between" style={{ backgroundColor: '#e6f2ff', padding: '10px', borderRadius: '10px' }}>
+            <h4 className="m-0" style={{ color: 'black', textAlign: 'center', fontSize: '22px', fontWeight: '600' }}>Orders delivered by suppliers, to be checked and received</h4>
              
         </div>
     );

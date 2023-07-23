@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import imslogo from '../../../images/logo-color.png';
 import {
     MDBContainer,
     MDBNavbar,
@@ -44,7 +45,15 @@ const Navbar = ({ filter, viewCart, viewOrder, searchTitle, cartSize }) => {
     return (
         <MDBNavbar expand='lg' light bgColor='light'>
             <MDBContainer fluid>
-                <MDBNavbarBrand href='#'>Categories</MDBNavbarBrand>
+                <MDBNavbarBrand href='#'>
+                    <img
+                        src={imslogo}
+                        height='50'
+                        width='70'
+                        alt=''
+                        loading='lazy'
+                    /> &nbsp;
+                </MDBNavbarBrand>
 
                 <MDBNavbarToggler
                     aria-controls='navbarSupportedContent'

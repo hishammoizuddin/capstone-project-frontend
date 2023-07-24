@@ -203,19 +203,21 @@ function Product() {
         {categories.map((c) => {
           return (
             <div className="col-sm-3">
-              <MDBCard >
+              <MDBCard  className="d-flex flex-column justify-content-center align-items-center text-center">
                 <MDBCardBody>
                   <MDBCardTitle>{makeUpperCase(c.name)}</MDBCardTitle>
                   <button
                     className="btn btn-primary"
                     onClick={() => viewProducts(c.id)}
+                    style={{ backgroundColor: '#004c8c', color: '#ffffff', width: '160px', marginBottom: '8px' }}
                   >
                     View Products
-                  </button>
+                  </button> 
                   &nbsp;&nbsp;&nbsp;
                   <button
                     className="btn btn-secondary"
                     data-bs-toggle="modal" data-bs-target="#productAdd"
+                    style={{ backgroundColor: '#B9D4EC', color: '#00070D', width: '160px', marginBottom: '8px' }}
                     onClick={(e) => {
                       setCategoryId(c.id);
 
@@ -232,10 +234,10 @@ function Product() {
           );
         })}
       </MDBRow>
-      <div class="alert alert-light" role="alert">
+      {/* <div class="alert alert-light" role="alert">
         <button className="btn btn-info"
           data-bs-toggle="modal" data-bs-target="#addCategory" > Add New Category</button>
-      </div>
+      </div> */}
       {/** Show all Products here  */}
       {showProduct === false ? (
         ""
@@ -249,7 +251,7 @@ function Product() {
               <th scope="col">Price</th>
               <th scope="col">Quantity Available</th>
               <th scope="col">Category Name</th>
-              <th scope="col">Actions</th>
+              {/* <th scope="col">Actions</th> */}
             </tr>
           </MDBTableHead>
           <MDBTableBody>
@@ -267,11 +269,11 @@ function Product() {
                   <td>${p.price}</td>
                   <td>{p.totalQuantity}</td>
                   <td>{p.category.name}</td>
-                  <td>
+                  {/* <td>
                     <MDBBtn color="link" rounded size="sm">
                       Delete
                     </MDBBtn>
-                  </td>
+                  </td> */}
                 </tr>
               );
             })}

@@ -227,6 +227,12 @@ class CustomerSignUp extends Component {
             );
             let tempArray = this.state.customers;
             tempArray.push(response.data);
+            let username = this.state.user.username;
+            let password = this.state.user.password;
+            let token = window.btoa(username + ':' + password);
+            localStorage.setItem('token', token);
+            localStorage.setItem('username', username);
+            localStorage.setItem('isLoggedIn', true);
             this.setState({
                 customers: tempArray
             }, () => this.props.navigate('/customer'))

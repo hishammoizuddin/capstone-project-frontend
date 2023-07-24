@@ -49,7 +49,7 @@ const CustomerOrder = ({refresh, setRefresh}) => {
                 refresh={refresh}
                 setRefresh={setRefresh}
             />
-            <h1 className="col-sm-6 col-lg-8 col-md-8 mb-4">Your Orders</h1>
+            <h2 className="col-sm-6 col-lg-8 col-md-8 mb-4">Your Orders</h2>
             {
                 customerOrders.map((co, index) => {
                     return (

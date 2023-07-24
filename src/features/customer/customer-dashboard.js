@@ -21,6 +21,7 @@ function CustomerDashboard() {
     const [basicModal, setBasicModal] = useState(false);
     const [addedProduct, setAddedProduct] = useState('');
     const [refresh, setRefresh] = useState(false);
+    const [cartMessage, setCartMessage] = useState('Your Cart');
 
     useEffect(() => {
         async function fetchData() {
@@ -58,6 +59,11 @@ function CustomerDashboard() {
             setProductList(new_arr);
         }
     }
+
+    const makeUpperCase = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+    
     const addProduct = (product) => {
         let newCart = [...cartList];
         const prodArr = newCart.filter(prod => prod.id === product.id);
@@ -104,7 +110,10 @@ function CustomerDashboard() {
             })
     }
 
-    const viewCart = () => setIsCart(true);
+    const viewCart = () => {
+        setIsCart(true);
+        setCartMessage('Your Cart');
+    }
     const viewReview = (product) => {
         setReviewedProduct(product);
         setIsReview(true);
@@ -142,6 +151,8 @@ function CustomerDashboard() {
                         updateProductQuantity={updateProductQuantity}
                         setRefresh={setRefresh}
                         refresh={refresh}
+                        cartMessage={cartMessage}
+                        setCartMessage={setCartMessage}
                     />
                 ) : isReview ? (
                     <Review
@@ -157,7 +168,7 @@ function CustomerDashboard() {
                 ) : (
                     <div className="row d-flex justify-content-center">
                         <div className="col-sm-10 col-lg-10 col-md-10">
-                            <h1 className="mb-4">Product Dashboard</h1>
+                            <h3 className="mb-4">Welcome {makeUpperCase(localStorage.getItem('username').split("@")[0])}! </h3>
                             <div className="row d-flex">
                                 {
                                     productList.map((product, index) => {
